@@ -24,6 +24,50 @@
         <activity
             android:name=".BuyerDashboardActivity"
             android:exported="false" />
+        <activity
+            android:name=".FarmerDashboardActivity"
+            android:exported="false" />
+        <activity
+            android:name=".FarmersMarketActivity"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".CartActivity"
+            android:exported="false" />
+        <activity
+            android:name=".DriverDashboardActivity"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".RecordPickupActivity"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".AssignedPickupsActivity"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".PickupDetailsActivity"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".DeliveryDetailsActivity"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".PaymentActivity"
+            android:label="Payment"
+            android:theme="@style/Theme.AppCompat.Light.DarkActionBar" />
+        <activity
+            android:name=".ProfileActivity"
+            android:label="Profile"
+            android:theme="@style/Theme.AppCompat.Light.DarkActionBar" />
+
+        <!-- Google Maps API key and permissions -->
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="YOUR_GOOGLE_MAPS_API_KEY" />
+
+        <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+        <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
+        <!--  permissions for phone calls and maps -->
+        <uses-permission android:name="android.permission.CALL_PHONE" />
+        <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
 
     </application>
