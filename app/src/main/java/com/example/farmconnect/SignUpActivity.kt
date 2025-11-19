@@ -4,57 +4,41 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.google.android.material.button.MaterialButton
-import com.google.android.material.textfield.TextInputEditText
-import android.widget.TextView
+import com.example.farmconnect.databinding.ActivitySignupBinding
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseAuthException
+import com.google.firebase.firestore.FirebaseFirestore
 
 class SignUpActivity : AppCompatActivity() {
 
-    private lateinit var etFullName: TextInputEditText
-    private lateinit var etEmail: TextInputEditText
-    private lateinit var etPhone: TextInputEditText
-    private lateinit var etPassword: TextInputEditText
-    private lateinit var etConfirmPassword: TextInputEditText
-    private lateinit var btnSignUp: MaterialButton
-    private lateinit var tvSignIn: TextView
+    private lateinit var binding: ActivitySignupBinding
+    private lateinit var auth: FirebaseAuth
+    private lateinit var firestore: FirebaseFirestore
     private var selectedRole: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_signup)
+        binding = ActivitySignupBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        // Initialize Firebase
+        auth = FirebaseAuth.getInstance()
+        firestore = FirebaseFirestore.getInstance()
 
         // Get the selected role from RoleSelectionActivity
         selectedRole = intent.getStringExtra("SELECTED_ROLE")
 
-        // You can use the selected role to customize the signup form
-        // For example, show a message or pre-fill certain fields
-        if (selectedRole != null) {
-            // Optional: Show which role is being signed up for
-            Toast.makeText(this, "Signing up as $selectedRole", Toast.LENGTH_SHORT).show()
-        }
-
-        initializeViews()
         setupClickListeners()
     }
 
-    private fun initializeViews() {
-        etFullName = findViewById(R.id.etFullName)
-        etEmail = findViewById(R.id.etEmail)
-        etPhone = findViewById(R.id.etPhone)
-        etPassword = findViewById(R.id.etPassword)
-        etConfirmPassword = findViewById(R.id.etConfirmPassword)
-        btnSignUp = findViewById(R.id.btnSignUp)
-        tvSignIn = findViewById(R.id.tvSignIn)
-    }
-
     private fun setupClickListeners() {
-        btnSignUp.setOnClickListener {
+        binding.btnSignUp.setOnClickListener {
             if (validateForm()) {
                 performSignUp()
             }
         }
 
-        tvSignIn.setOnClickListener {
+        binding.tvSignIn.setOnClickListener {
             // Navigate to Sign In activity
             val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
@@ -63,83 +47,150 @@ class SignUpActivity : AppCompatActivity() {
     }
 
     private fun validateForm(): Boolean {
-        val fullName = etFullName.text.toString().trim()
-        val email = etEmail.text.toString().trim()
-        val phone = etPhone.text.toString().trim()
-        val password = etPassword.text.toString().trim()
-        val confirmPassword = etConfirmPassword.text.toString().trim()
+        val fullName = binding.etFullName.text.toString().trim()
+        val email = binding.etEmail.text.toString().trim()
+        val phone = binding.etPhone.text.toString().trim()
+        val password = binding.etPassword.text.toString().trim()
+        val confirmPassword = binding.etConfirmPassword.text.toString().trim()
+
+        var isValid = true
 
         // Clear previous errors
-        etFullName.error = null
-        etEmail.error = null
-        etPhone.error = null
-        etPassword.error = null
-        etConfirmPassword.error = null
+        binding.etFullName.error = null
+        binding.etEmail.error = null
+        binding.etPhone.error = null
+        binding.etPassword.error = null
+        binding.etConfirmPassword.error = null
 
         if (fullName.isEmpty()) {
-            etFullName.error = "Please enter your full name"
-            return false
+            binding.etFullName.error = "Please enter your full name"
+            isValid = false
         }
 
         if (email.isEmpty()) {
-            etEmail.error = "Please enter your email address"
-            return false
-        }
-
-        if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            etEmail.error = "Please enter a valid email address"
-            return false
+            binding.etEmail.error = "Please enter your email address"
+            isValid = false
+        } else if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            binding.etEmail.error = "Please enter a valid email address"
+            isValid = false
         }
 
         if (phone.isEmpty()) {
-            etPhone.error = "Please enter your phone number"
-            return false
+            binding.etPhone.error = "Please enter your phone number"
+            isValid = false
+        } else if (phone.length < 10) {
+            binding.etPhone.error = "Please enter a valid phone number"
+            isValid = false
         }
 
         if (password.isEmpty()) {
-            etPassword.error = "Please create a password"
-            return false
-        }
-
-        if (password.length < 6) {
-            etPassword.error = "Password must be at least 6 characters"
-            return false
+            binding.etPassword.error = "Please create a password"
+            isValid = false
+        } else if (password.length < 6) {
+            binding.etPassword.error = "Password must be at least 6 characters"
+            isValid = false
         }
 
         if (confirmPassword.isEmpty()) {
-            etConfirmPassword.error = "Please confirm your password"
-            return false
+            binding.etConfirmPassword.error = "Please confirm your password"
+            isValid = false
+        } else if (password != confirmPassword) {
+            binding.etConfirmPassword.error = "Passwords do not match"
+            isValid = false
         }
 
-        if (password != confirmPassword) {
-            etConfirmPassword.error = "Passwords do not match"
-            return false
-        }
-
-        return true
+        return isValid
     }
 
     private fun performSignUp() {
-        val fullName = etFullName.text.toString().trim()
-
-        // Include the selected role in the signup process
+        val fullName = binding.etFullName.text.toString().trim()
+        val email = binding.etEmail.text.toString().trim()
+        val phone = binding.etPhone.text.toString().trim()
+        val password = binding.etPassword.text.toString().trim()
         val role = selectedRole ?: "user" // default to "user" if no role selected
 
-        Toast.makeText(this, "Account created successfully for $fullName as $role!", Toast.LENGTH_SHORT).show()
+        // Show loading state
+        binding.btnSignUp.isEnabled = false
+        binding.btnSignUp.text = "Creating account..."
 
-        // Here you would typically make API call to register user
-        // You can send the role to your backend along with other user data
-        // For example: api.registerUser(fullName, email, phone, password, role)
-
-        // After successful registration, you might want to navigate to the main activity
-        // val intent = Intent(this, MainActivity::class.java)
-        // startActivity(intent)
-        // finish()
+        // Create user with Firebase Authentication
+        auth.createUserWithEmailAndPassword(email, password)
+            .addOnCompleteListener(this) { task ->
+                if (task.isSuccessful) {
+                    // User account created successfully
+                    val user = auth.currentUser
+                    user?.let {
+                        // Save additional user data to Firestore
+                        saveUserToFirestore(it.uid, fullName, email, phone, role)
+                    }
+                } else {
+                    // Sign up failed
+                    binding.btnSignUp.isEnabled = true
+                    binding.btnSignUp.text = "Sign Up"
+                    
+                    val exception = task.exception
+                    if (exception is FirebaseAuthException) {
+                        when (exception.errorCode) {
+                            "ERROR_EMAIL_ALREADY_IN_USE" -> {
+                                binding.etEmail.error = "This email is already registered"
+                                Toast.makeText(this, "Email already exists. Please use a different email or login.", Toast.LENGTH_LONG).show()
+                            }
+                            "ERROR_WEAK_PASSWORD" -> {
+                                binding.etPassword.error = "Password is too weak"
+                                Toast.makeText(this, "Password is too weak. Please use a stronger password.", Toast.LENGTH_SHORT).show()
+                            }
+                            "ERROR_INVALID_EMAIL" -> {
+                                binding.etEmail.error = "Invalid email address"
+                                Toast.makeText(this, "Please enter a valid email address.", Toast.LENGTH_SHORT).show()
+                            }
+                            else -> {
+                                Toast.makeText(this, "Sign up failed: ${exception.message}", Toast.LENGTH_LONG).show()
+                            }
+                        }
+                    } else {
+                        Toast.makeText(this, "Sign up failed: ${exception?.message}", Toast.LENGTH_LONG).show()
+                    }
+                }
+            }
     }
 
-    private fun navigateToSignIn() {
-        val intent = Intent(this, LoginActivity::class.java)
-        startActivity(intent)
-        finish()
+    private fun saveUserToFirestore(uid: String, fullName: String, email: String, phone: String, role: String) {
+        val userData = hashMapOf(
+            "fullName" to fullName,
+            "email" to email,
+            "phone" to phone,
+            "role" to role,
+            "createdAt" to com.google.firebase.Timestamp.now()
+        )
+
+        firestore.collection("users")
+            .document(uid)
+            .set(userData)
+            .addOnSuccessListener {
+                // User data saved successfully
+                Toast.makeText(this, "Account created successfully!", Toast.LENGTH_SHORT).show()
+                
+                // Navigate to appropriate dashboard based on role
+                when (role) {
+                    "buyer" -> {
+                        val intent = Intent(this, BuyerDashboardActivity::class.java)
+                        startActivity(intent)
+                        finish()
+                    }
+                    // Add other role-specific activities here when available
+                    else -> {
+                        // Default navigation - you can customize this
+                        val intent = Intent(this, BuyerDashboardActivity::class.java)
+                        startActivity(intent)
+                        finish()
+                    }
+                }
+            }
+            .addOnFailureListener { e ->
+                // User created but data save failed
+                binding.btnSignUp.isEnabled = true
+                binding.btnSignUp.text = "Sign Up"
+                Toast.makeText(this, "Account created but failed to save profile: ${e.message}", Toast.LENGTH_LONG).show()
+            }
     }
 }

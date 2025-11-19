@@ -1,19 +1,30 @@
 package com.example.farmconnect
 
 import android.content.Intent
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import com.example.farmconnect.databinding.ActivityLoginBinding
+import com.google.android.material.textfield.TextInputEditText
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseAuthException
+import com.google.firebase.firestore.FirebaseFirestore
 
 class LoginActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityLoginBinding
+    private lateinit var auth: FirebaseAuth
+    private lateinit var firestore: FirebaseFirestore
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        // Initialize Firebase
+        auth = FirebaseAuth.getInstance()
+        firestore = FirebaseFirestore.getInstance()
 
         setupClickListeners()
     }
@@ -43,7 +54,11 @@ class LoginActivity : AppCompatActivity() {
     private fun validateInputs(email: String, password: String): Boolean {
         return when {
             email.isEmpty() -> {
-                binding.emailInputLayout.error = "Email or username is required"
+                binding.emailInputLayout.error = "Email is required"
+                false
+            }
+            !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches() -> {
+                binding.emailInputLayout.error = "Please enter a valid email address"
                 false
             }
             password.isEmpty() -> {
@@ -67,29 +82,145 @@ class LoginActivity : AppCompatActivity() {
         binding.btnLogin.text = "Logging in..."
         binding.btnLogin.isEnabled = false
 
-        // Simulate API call - Replace with your actual authentication logic
-        android.os.Handler().postDelayed({
-            // Reset button state
-            binding.btnLogin.text = "Login"
-            binding.btnLogin.isEnabled = true
+        // Sign in with Firebase Authentication
+        auth.signInWithEmailAndPassword(email, password)
+            .addOnCompleteListener(this) { task ->
+                if (task.isSuccessful) {
+                    // Login successful
+                    val user = auth.currentUser
+                    user?.let {
+                        // Get user role from Firestore and navigate accordingly
+                        getUserRoleAndNavigate(it.uid)
+                    }
+                } else {
+                    // Login failed
+                    binding.btnLogin.text = "Login"
+                    binding.btnLogin.isEnabled = true
 
-            // For demo purposes - In real app, check against your backend
-            if (email.isNotEmpty() && password.length >= 6) {
-                // Successful login
+                    val exception = task.exception
+                    if (exception is FirebaseAuthException) {
+                        when (exception.errorCode) {
+                            "ERROR_USER_NOT_FOUND" -> {
+                                binding.emailInputLayout.error = "No account found with this email"
+                                Toast.makeText(this, "No account found. Please sign up first.", Toast.LENGTH_LONG).show()
+                            }
+                            "ERROR_WRONG_PASSWORD" -> {
+                                binding.passwordInputLayout.error = "Incorrect password"
+                                Toast.makeText(this, "Incorrect password. Please try again.", Toast.LENGTH_SHORT).show()
+                            }
+                            "ERROR_INVALID_EMAIL" -> {
+                                binding.emailInputLayout.error = "Invalid email address"
+                                Toast.makeText(this, "Please enter a valid email address.", Toast.LENGTH_SHORT).show()
+                            }
+                            "ERROR_USER_DISABLED" -> {
+                                Toast.makeText(this, "This account has been disabled.", Toast.LENGTH_LONG).show()
+                            }
+                            else -> {
+                                Toast.makeText(this, "Login failed: ${exception.message}", Toast.LENGTH_LONG).show()
+                            }
+                        }
+                    } else {
+                        Toast.makeText(this, "Login failed: ${exception?.message}", Toast.LENGTH_LONG).show()
+                    }
+                }
+            }
+    }
+
+    private fun getUserRoleAndNavigate(uid: String) {
+        firestore.collection("users")
+            .document(uid)
+            .get()
+            .addOnSuccessListener { document ->
+                val role = document.getString("role") ?: "user"
+                
                 Toast.makeText(this, "Login successful!", Toast.LENGTH_SHORT).show()
-
-                // Navigate to buyer dashboard instead of main activity
+                
+                // Navigate to appropriate dashboard based on role
+                when (role) {
+                    "buyer" -> {
+                        val intent = Intent(this, BuyerDashboardActivity::class.java)
+                        startActivity(intent)
+                        finish()
+                    }
+                    // Add other role-specific activities here when available
+                    else -> {
+                        // Default navigation
+                        val intent = Intent(this, BuyerDashboardActivity::class.java)
+                        startActivity(intent)
+                        finish()
+                    }
+                }
+            }
+            .addOnFailureListener {
+                // If role fetch fails, still navigate to default dashboard
+                Toast.makeText(this, "Login successful!", Toast.LENGTH_SHORT).show()
                 val intent = Intent(this, BuyerDashboardActivity::class.java)
                 startActivity(intent)
                 finish()
-            } else {
-                Toast.makeText(this, "Invalid credentials", Toast.LENGTH_SHORT).show()
             }
-        }, 1500)
     }
 
     private fun showForgotPasswordDialog() {
-        Toast.makeText(this, "Forgot Password feature coming soon!", Toast.LENGTH_SHORT).show()
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle("Reset Password")
+        builder.setMessage("Enter your email address and we'll send you a link to reset your password.")
+        
+        val input = TextInputEditText(this)
+        input.hint = "Enter your email"
+        input.inputType = android.text.InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS
+        
+        // Set layout parameters for the input field
+        val layoutParams = android.widget.LinearLayout.LayoutParams(
+            android.widget.LinearLayout.LayoutParams.MATCH_PARENT,
+            android.widget.LinearLayout.LayoutParams.WRAP_CONTENT
+        )
+        layoutParams.setMargins(64, 16, 64, 16)
+        input.layoutParams = layoutParams
+        
+        val container = android.widget.LinearLayout(this)
+        container.orientation = android.widget.LinearLayout.VERTICAL
+        container.addView(input)
+        
+        builder.setView(container)
+        
+        builder.setPositiveButton("Send") { dialog, _ ->
+            val email = input.text.toString().trim()
+            if (email.isNotEmpty() && android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+                sendPasswordResetEmail(email)
+            } else {
+                Toast.makeText(this, "Please enter a valid email address", Toast.LENGTH_SHORT).show()
+            }
+            dialog.dismiss()
+        }
+        
+        builder.setNegativeButton("Cancel") { dialog, _ ->
+            dialog.dismiss()
+        }
+        
+        builder.show()
+    }
+
+    private fun sendPasswordResetEmail(email: String) {
+        auth.sendPasswordResetEmail(email)
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    Toast.makeText(this, "Password reset email sent. Please check your inbox.", Toast.LENGTH_LONG).show()
+                } else {
+                    val exception = task.exception
+                    if (exception is FirebaseAuthException) {
+                        when (exception.errorCode) {
+                            "ERROR_USER_NOT_FOUND" -> {
+                                Toast.makeText(this, "No account found with this email address.", Toast.LENGTH_LONG).show()
+                            }
+                            else -> {
+                                Toast.makeText(this, "Failed to send reset email: ${exception.message}", Toast.LENGTH_LONG).show()
+                            }
+                        }
+                    } else {
+                        Toast.makeText(this, "Failed to send reset email: ${exception?.message}", Toast.LENGTH_LONG).show()
+                    }
+                }
+            }
     }
 
     private fun navigateToSignUp() {
