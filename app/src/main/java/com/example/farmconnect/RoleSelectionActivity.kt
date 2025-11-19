@@ -2,6 +2,7 @@ package com.example.farmconnect
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.example.farmconnect.databinding.ActivityRoleSelectionBinding
@@ -38,7 +39,7 @@ class RoleSelectionActivity : AppCompatActivity() {
 
         // Get Started button click
         binding.btnGetStarted.setOnClickListener {
-            navigateToSignUp()
+            navigateBasedOnRole()
         }
     }
 
@@ -64,6 +65,34 @@ class RoleSelectionActivity : AppCompatActivity() {
             card.strokeColor = ContextCompat.getColor(this, R.color.card_stroke)
             card.setCardBackgroundColor(ContextCompat.getColor(this, R.color.card_background))
         }
+    }
+
+    private fun navigateBasedOnRole() {
+        when (selectedRole) {
+            "farmer" -> navigateToFarmerDashboard()
+            "buyer" -> navigateToBuyerDashboard()
+            "driver" -> navigateToDriverDashboard()
+            else -> navigateToSignUp() // Fallback
+        }
+    }
+
+    private fun navigateToFarmerDashboard() {
+        val intent = Intent(this, FarmerDashboardActivity::class.java)
+        startActivity(intent)
+        finish()
+    }
+
+    private fun navigateToBuyerDashboard() {
+        val intent = Intent(this, BuyerDashboardActivity::class.java)
+        startActivity(intent)
+        finish()
+    }
+
+    private fun navigateToDriverDashboard() {
+        // If you create a DriverDashboardActivity later, add it here
+        // For now, redirect to sign up or show message
+        Toast.makeText(this, "Driver dashboard coming soon!", Toast.LENGTH_SHORT).show()
+        navigateToSignUp()
     }
 
     private fun navigateToSignUp() {

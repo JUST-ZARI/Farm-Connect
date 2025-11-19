@@ -13,6 +13,7 @@ class BuyerDashboardActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityBuyerDashboardBinding
     private lateinit var productAdapter: ProductAdapter
+    private val cartItems = mutableListOf<Product>() // Track cart items
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,7 +57,7 @@ class BuyerDashboardActivity : AppCompatActivity() {
                 }
 
                 R.id.navigation_cart -> {
-                    Toast.makeText(this, "Cart feature coming soon!", Toast.LENGTH_SHORT).show()
+                    navigateToCart()
                     true
                 }
 
@@ -71,8 +72,29 @@ class BuyerDashboardActivity : AppCompatActivity() {
     }
 
     private fun addToCart(product: Product) {
+        // Add product to cart
+        cartItems.add(product)
         Toast.makeText(this, "Added ${product.name} to cart!", Toast.LENGTH_SHORT).show()
-        // Here you would add the product to the cart in your data model
+
+        // Ask user if they want to go to cart
+        android.app.AlertDialog.Builder(this)
+            .setTitle("Added to Cart")
+            .setMessage("${product.name} has been added to your cart. Do you want to view your cart?")
+            .setPositiveButton("View Cart") { dialog, which ->
+                navigateToCart()
+            }
+            .setNegativeButton("Continue Shopping") { dialog, which ->
+                // User stays on the current page
+            }
+            .show()
+    }
+
+    private fun navigateToCart() {
+        val intent = Intent(this, CartActivity::class.java).apply {
+            // Pass the entire cart items list
+            putExtra("CART_ITEMS", ArrayList(cartItems))
+        }
+        startActivity(intent)
     }
 
     private fun getSampleProducts(): List<Product> {
