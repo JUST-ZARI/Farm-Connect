@@ -110,7 +110,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
-        app:menu="@menu/bottom_navigation_menu"
+        app:menu="@menu/bottom_navigation_menu_buyer_page"
         app:labelVisibilityMode="labeled"
         app:itemIconTint="@color/primary_blue"
         app:itemTextColor="@color/primary_blue" />

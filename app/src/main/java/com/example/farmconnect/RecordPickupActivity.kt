@@ -36,14 +36,14 @@ class RecordPickupActivity : AppCompatActivity() {
         }
 
         // Also make the entire card clickable for photo upload
-        binding.photoUploadCard.setOnClickListener {
+        /*binding.photoUploadCard.setOnClickListener {
             binding.cbUploadPhoto.isChecked = !binding.cbUploadPhoto.isChecked
             if (binding.cbUploadPhoto.isChecked) {
                 openImagePicker()
             } else {
                 selectedImageUri = null
             }
-        }
+        }*/
     }
 
     private fun setupBottomNavigation() {

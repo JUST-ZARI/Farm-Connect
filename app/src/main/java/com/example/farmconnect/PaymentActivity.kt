@@ -1,7 +1,9 @@
 package com.example.farmconnect
 
 import android.os.Bundle
+import android.view.Gravity
 import android.widget.*
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 

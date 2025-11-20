@@ -99,12 +99,78 @@ class BuyerDashboardActivity : AppCompatActivity() {
 
     private fun getSampleProducts(): List<Product> {
         return listOf(
-            Product("1", "Fresh Tomatoes", 2.50, "kg", "🍅"),
-            Product("2", "Organic Carrots", 1.80, "kg", "🥕"),
-            Product("3", "Sweet Potatoes", 3.00, "kg", "🍠"),
-            Product("4", "Green Bell Peppers", 4.20, "kg", "🫑"),
-            Product("5", "Farm Fresh Eggs", 5.00, "dozen", "🥚"),
-            Product("6", "Crisp Lettuce", 1.50, "head", "🥬")
+            Product(
+                id = "1",
+                name = "Fresh Tomatoes",
+                description = "Juicy, farm-fresh tomatoes",
+                price = 2.50,
+                quantity = "10",
+                unit = "kg",
+                emoji = "🍅",
+                imageUrl = null,
+                category = "Vegetables",
+                owner = "Sunrise Farm"
+            ),
+            Product(
+                id = "2",
+                name = "Organic Carrots",
+                description = "Sweet organic carrots",
+                price = 1.80,
+                quantity = "8",
+                unit = "kg",
+                emoji = "🥕",
+                imageUrl = null,
+                category = "Vegetables",
+                owner = "Green Valley Farm"
+            ),
+            Product(
+                id = "3",
+                name = "Sweet Potatoes",
+                description = "Sweet, starchy potatoes perfect for roasting",
+                price = 3.00,
+                quantity = "15",
+                unit = "kg",
+                emoji = "🍠",
+                imageUrl = null,
+                category = "Root Crops",
+                owner = "Harvest Fields"
+            ),
+            Product(
+                id = "4",
+                name = "Green Bell Peppers",
+                description = "Crisp and fresh bell peppers",
+                price = 4.20,
+                quantity = "12",
+                unit = "kg",
+                emoji = "🫑",
+                imageUrl = null,
+                category = "Vegetables",
+                owner = "Garden Fresh Farm"
+            ),
+            Product(
+                id = "5",
+                name = "Farm Fresh Eggs",
+                description = "Free-range farm eggs",
+                price = 5.00,
+                quantity = "30",
+                unit = "dozen",
+                emoji = "🥚",
+                imageUrl = null,
+                category = "Poultry",
+                owner = "Happy Hens Farm"
+            ),
+            Product(
+                id = "6",
+                name = "Crisp Lettuce",
+                description = "Fresh and crispy lettuce",
+                price = 1.50,
+                quantity = "20",
+                unit = "head",
+                emoji = "🥬",
+                imageUrl = null,
+                category = "Vegetables",
+                owner = "Leafy Greens Farm"
+            )
         )
     }
 }

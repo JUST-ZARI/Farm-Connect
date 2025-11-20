@@ -45,15 +45,15 @@ class ProfileActivity : AppCompatActivity() {
             showChangePasswordDialog()
         }
 
-        // Notification Settings
+        /*// Notification Settings
         notificationOption.setOnClickListener {
             navigateToNotificationSettings()
-        }
+        }*/
 
-        // Privacy Settings
+        /*// Privacy Settings
         privacyOption.setOnClickListener {
             navigateToPrivacySettings()
-        }
+        }*/
 
         // Logout Option
         logoutOption.setOnClickListener {
@@ -146,19 +146,19 @@ class ProfileActivity : AppCompatActivity() {
         // or just return to the previous screen
     }
 
-    private fun navigateToNotificationSettings() {
+    /*private fun navigateToNotificationSettings() {
         // Navigate to Notification Settings Activity
         val intent = Intent(this, NotificationSettingsActivity::class.java)
         startActivity(intent)
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
-    }
+    }*/
 
-    private fun navigateToPrivacySettings() {
+    /*private fun navigateToPrivacySettings() {
         // Navigate to Privacy Settings Activity
         val intent = Intent(this, PrivacySettingsActivity::class.java)
         startActivity(intent)
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
-    }
+    }*/
 
     private fun showLogoutConfirmation() {
         AlertDialog.Builder(this)

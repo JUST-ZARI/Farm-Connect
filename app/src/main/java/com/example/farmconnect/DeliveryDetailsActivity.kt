@@ -37,7 +37,7 @@ class DeliveryDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private fun setupMapView(savedInstanceState: Bundle?) {
         // Initialize map view
-        mapView = binding.root.findViewById(R.id.mapView) ?: return
+        //mapView = binding.root.findViewById(R.id.mapView) ?: return
 
         mapView.onCreate(savedInstanceState)
         mapView.getMapAsync(this)
@@ -55,10 +55,10 @@ class DeliveryDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private fun setupClickListeners() {
         // Current Location FAB
-        val fabLocation = binding.root.findViewById<MaterialButton>(R.id.fabLocation)
+        /*val fabLocation = binding.root.findViewById<MaterialButton>(R.id.fabLocation)
         fabLocation?.setOnClickListener {
             centerMapOnCurrentLocation()
-        }
+        }*/
 
         // Proceed to Payment Button
         binding.btnProceedToPayment.setOnClickListener {

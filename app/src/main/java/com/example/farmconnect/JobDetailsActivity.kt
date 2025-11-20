@@ -1,3 +1,7 @@
+package com.example.farmconnect
+
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.widget.*
@@ -5,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 
 class JobDetailsActivity : AppCompatActivity() {
 
@@ -34,10 +39,10 @@ class JobDetailsActivity : AppCompatActivity() {
 
     private fun setupClickListeners() {
         // Add click listener to the map placeholder to start navigation
-        val mapCard = findViewById<CardView>(R.id.mapCard)
+        /*val mapCard = findViewById<CardView>(R.id.mapCard)
         mapCard?.setOnClickListener {
             showStartNavigationBottomSheet()
-        }
+        }*/
 
         // Or you can add a floating action button
         // startNavigationButton.setOnClickListener { showStartNavigationBottomSheet() }
@@ -96,11 +101,11 @@ class JobDetailsActivity : AppCompatActivity() {
         val bottomSheetView = layoutInflater.inflate(R.layout.bottom_sheet_navigation, null)
         bottomSheetDialog.setContentView(bottomSheetView)
 
-        val slideLayout = bottomSheetView.findViewById<LinearLayout>(R.id.slideLayout)
+        //val slideLayout = bottomSheetView.findViewById<LinearLayout>(R.id.slideLayout)
         val slideText = bottomSheetView.findViewById<TextView>(R.id.slideText)
 
         // Set up slide gesture
-        setupSlideGesture(slideLayout, slideText, bottomSheetDialog)
+        //setupSlideGesture(slideLayout, slideText, bottomSheetDialog)
 
         bottomSheetDialog.show()
 
@@ -108,7 +113,7 @@ class JobDetailsActivity : AppCompatActivity() {
         bottomSheetDialog.behavior.state = BottomSheetBehavior.STATE_EXPANDED
     }
 
-    private fun setupSlideGesture(slideLayout: LinearLayout, slideText: TextView, dialog: BottomSheetDialog) {
+    /*private fun setupSlideGesture(slideLayout: LinearLayout, slideText: TextView, dialog: BottomSheetDialog) {
         var isSliding = false
         var startX = 0f
 
@@ -147,7 +152,7 @@ class JobDetailsActivity : AppCompatActivity() {
                 else -> false
             }
         }
-    }
+    }*/
 
     private fun startNavigation() {
         // Implement navigation logic here
@@ -198,8 +203,8 @@ class JobDetailsActivity : AppCompatActivity() {
     }
 
     // Handle back button press
-    override fun onBackPressed() {
+   /* override fun onBackPressed() {
         super.onBackPressed()
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
-    }
+    }*/
 }
