@@ -76,7 +76,7 @@
                 <ImageView
                     android:layout_width="48dp"
                     android:layout_height="48dp"
-                    android:src="@drawable/ic_farmer"
+                    android:src="@drawable/ic_person"
                     android:layout_marginEnd="16dp"
                     app:tint="@color/primary_blue" />
 

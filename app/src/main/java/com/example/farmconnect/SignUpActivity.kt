@@ -168,23 +168,15 @@ class SignUpActivity : AppCompatActivity() {
             .set(userData)
             .addOnSuccessListener {
                 // User data saved successfully
-                Toast.makeText(this, "Account created successfully!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Account created successfully! Please login.", Toast.LENGTH_SHORT).show()
                 
-                // Navigate to appropriate dashboard based on role
-                when (role) {
-                    "buyer" -> {
-                        val intent = Intent(this, BuyerDashboardActivity::class.java)
-                        startActivity(intent)
-                        finish()
-                    }
-                    // Add other role-specific activities here when available
-                    else -> {
-                        // Default navigation - you can customize this
-                        val intent = Intent(this, BuyerDashboardActivity::class.java)
-                        startActivity(intent)
-                        finish()
-                    }
-                }
+                // Sign out the user (since they were auto-logged in) and navigate to LoginActivity
+                auth.signOut()
+                
+                // Navigate to LoginActivity
+                val intent = Intent(this, LoginActivity::class.java)
+                startActivity(intent)
+                finish()
             }
             .addOnFailureListener { e ->
                 // User created but data save failed

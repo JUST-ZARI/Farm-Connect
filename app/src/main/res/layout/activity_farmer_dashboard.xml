@@ -1,45 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/farmer_background"
-    android:padding="16dp"
-    android:fitsSystemWindows="true">
+    android:background="@color/farmer_background">
+    
+    <ScrollView
+        android:id="@+id/scrollContent"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:padding="16dp"
+        android:fitsSystemWindows="true"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/bottomNav"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <!-- Header -->
-        <LinearLayout
+        <!-- HEADER -->
+        <TextView
+            android:id="@+id/tvTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:layout_marginBottom="24dp">
+            android:text="Farmer Dashboard"
+            android:textColor="@color/text_dark"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="24dp" />
 
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Farmer Dashboard"
-                android:textColor="@color/text_dark"
-                android:textSize="24sp"
-                android:textStyle="bold" />
-
-            <ImageView
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:src="@android:drawable/ic_menu_my_calendar"
-                android:background="@drawable/product_image_background"
-                android:padding="8dp"
-                android:contentDescription="Profile" />
-
-        </LinearLayout>
-
-        <!-- Performance Overview -->
+        <!-- PERFORMANCE OVERVIEW -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -47,135 +41,133 @@
             android:textColor="@color/text_dark"
             android:textSize="18sp"
             android:textStyle="bold"
-            android:layout_marginBottom="16dp" />
+            android:layout_marginBottom="12dp" />
 
+        <!-- TOP ROW: Total Sales + Pending Deliveries -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginBottom="24dp">
+            android:layout_marginBottom="12dp">
 
-            <!-- Total Sales Card -->
+            <!-- Total Sales -->
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_weight="2"
                 android:layout_marginEnd="8dp"
-                app:cardCornerRadius="12dp"
-                app:cardElevation="4dp">
+                app:cardCornerRadius="14dp"
+                app:cardElevation="4dp"
+                app:cardUseCompatPadding="true">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:padding="16dp"
-                    android:background="@color/farmer_primary">
+                    android:padding="16dp">
 
                     <TextView
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="KES 145,000"
-                        android:textColor="@color/white"
-                        android:textSize="20sp"
+                        android:text="KES"
+                        android:textColor="@color/farmer_primary"
+                        android:textSize="14sp"
                         android:textStyle="bold" />
 
                     <TextView
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="145,000"
+                        android:textColor="@color/farmer_primary"
+                        android:textSize="26sp"
+                        android:textStyle="bold"
+                        android:layout_marginTop="2dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Total Sales"
-                        android:textColor="@color/white"
+                        android:textColor="@color/text_light"
                         android:textSize="14sp"
-                        android:layout_marginTop="4dp" />
-
+                        android:layout_marginTop="8dp" />
                 </LinearLayout>
 
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Pending Deliveries Card -->
+            <!-- Pending Deliveries -->
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:layout_marginStart="8dp"
-                app:cardCornerRadius="12dp"
-                app:cardElevation="4dp">
+                app:cardCornerRadius="14dp"
+                app:cardElevation="4dp"
+                app:cardUseCompatPadding="true">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:padding="16dp"
-                    android:background="@color/status_pending">
+                    android:padding="16dp">
 
                     <TextView
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="3"
-                        android:textColor="@color/white"
+                        android:textColor="@color/farmer_primary"
                         android:textSize="20sp"
-                        android:textStyle="bold"
-                        android:gravity="center" />
+                        android:textStyle="bold" />
 
                     <TextView
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Pending Deliveries"
-                        android:textColor="@color/white"
-                        android:textSize="14sp"
-                        android:gravity="center"
+                        android:textColor="@color/text_light"
+                        android:textSize="13sp"
                         android:layout_marginTop="4dp" />
-
                 </LinearLayout>
 
             </com.google.android.material.card.MaterialCardView>
 
         </LinearLayout>
 
-        <!-- New Orders Card -->
+        <!-- SECOND ROW: New Orders -->
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="24dp"
-            app:cardCornerRadius="12dp"
-            app:cardElevation="4dp">
+            app:cardCornerRadius="14dp"
+            app:cardElevation="4dp"
+            app:cardUseCompatPadding="true">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:padding="16dp"
-                android:background="@color/farmer_secondary">
+                android:padding="16dp">
 
                 <TextView
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:text="5"
-                    android:textColor="@color/white"
+                    android:textColor="@color/farmer_primary"
                     android:textSize="24sp"
                     android:textStyle="bold" />
 
                 <TextView
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="2"
-                    android:text="New Orders"
-                    android:textColor="@color/white"
+                    android:text="  New Orders"
+                    android:textColor="@color/text_light"
                     android:textSize="16sp"
+                    android:layout_marginStart="8dp"
                     android:textStyle="bold" />
-
             </LinearLayout>
 
         </com.google.android.material.card.MaterialCardView>
 
-        <!-- Divider -->
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/border_light"
-            android:layout_marginBottom="16dp" />
 
-        <!-- Order Insights -->
+        <!-- ORDER INSIGHTS -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -183,36 +175,37 @@
             android:textColor="@color/text_dark"
             android:textSize="18sp"
             android:textStyle="bold"
-            android:layout_marginBottom="16dp" />
+            android:layout_marginBottom="12dp" />
 
-        <!-- Order Insights Table -->
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="24dp"
-            app:cardCornerRadius="12dp"
-            app:cardElevation="2dp">
+            app:cardCornerRadius="14dp"
+            app:cardElevation="2dp"
+            app:cardUseCompatPadding="true">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="16dp">
+                android:orientation="vertical">
 
-                <!-- Table Header -->
+                <!-- header row with blue background -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginBottom="12dp">
+                    android:background="@color/farmer_light"
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="10dp"
+                    android:orientation="horizontal">
 
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="Order ID"
-                        android:textColor="@color/text_dark"
-                        android:textSize="14sp"
+                        android:textColor="@color/farmer_primary"
+                        android:textSize="13sp"
                         android:textStyle="bold" />
 
                     <TextView
@@ -220,8 +213,8 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="Status"
-                        android:textColor="@color/text_dark"
-                        android:textSize="14sp"
+                        android:textColor="@color/farmer_primary"
+                        android:textSize="13sp"
                         android:textStyle="bold"
                         android:gravity="center" />
 
@@ -229,129 +222,178 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Delivery Time"
-                        android:textColor="@color/text_dark"
-                        android:textSize="14sp"
+                        android:text="Pickup Time"
+                        android:textColor="@color/farmer_primary"
+                        android:textSize="13sp"
                         android:textStyle="bold"
                         android:gravity="end" />
-
                 </LinearLayout>
 
-                <!-- Order Row 1 -->
+                <!-- table rows -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginBottom="12dp"
+                    android:orientation="vertical"
+                    android:paddingHorizontal="16dp"
                     android:paddingVertical="8dp">
 
-                    <TextView
-                        android:layout_width="0dp"
+                    <!-- Row 1 -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="#FC012"
-                        android:textColor="@color/text_dark"
-                        android:textSize="14sp" />
+                        android:paddingVertical="6dp"
+                        android:orientation="horizontal">
 
-                    <TextView
-                        android:layout_width="0dp"
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="#FC001"
+                            android:textSize="13sp"
+                            android:textColor="@color/text_dark" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="New Order"
+                            android:textSize="13sp"
+                            android:textColor="@color/farmer_primary"
+                            android:gravity="center" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="-"
+                            android:textSize="13sp"
+                            android:textColor="@color/text_light"
+                            android:gravity="end" />
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/border_light" />
+
+                    <!-- Row 2 -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Pending"
-                        android:textColor="@color/status_pending"
-                        android:textSize="14sp"
-                        android:textStyle="bold"
-                        android:gravity="center" />
+                        android:paddingVertical="6dp"
+                        android:orientation="horizontal">
 
-                    <TextView
-                        android:layout_width="0dp"
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="#FC002"
+                            android:textSize="13sp"
+                            android:textColor="@color/text_dark" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Scheduled"
+                            android:textSize="13sp"
+                            android:textColor="@color/status_completed"
+                            android:gravity="center" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Today, 2 PM"
+                            android:textSize="13sp"
+                            android:textColor="@color/text_light"
+                            android:gravity="end" />
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/border_light" />
+
+                    <!-- Row 3 -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Today, 2 PM"
-                        android:textColor="@color/text_light"
-                        android:textSize="14sp"
-                        android:gravity="end" />
+                        android:paddingVertical="6dp"
+                        android:orientation="horizontal">
 
-                </LinearLayout>
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="#FC003"
+                            android:textSize="13sp"
+                            android:textColor="@color/text_dark" />
 
-                <!-- Order Row 2 -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginBottom="12dp"
-                    android:paddingVertical="8dp">
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="New Order"
+                            android:textSize="13sp"
+                            android:textColor="@color/farmer_primary"
+                            android:gravity="center" />
 
-                    <TextView
-                        android:layout_width="0dp"
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="-"
+                            android:textSize="13sp"
+                            android:textColor="@color/text_light"
+                            android:gravity="end" />
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/border_light" />
+
+                    <!-- Row 4 -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="#FC013"
-                        android:textColor="@color/text_dark"
-                        android:textSize="14sp" />
+                        android:paddingVertical="6dp"
+                        android:orientation="horizontal">
 
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Scheduled"
-                        android:textColor="@color/status_completed"
-                        android:textSize="14sp"
-                        android:textStyle="bold"
-                        android:gravity="center" />
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="#FC004"
+                            android:textSize="13sp"
+                            android:textColor="@color/text_dark" />
 
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Tomorrow, 10 AM"
-                        android:textColor="@color/text_light"
-                        android:textSize="14sp"
-                        android:gravity="end" />
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Scheduled"
+                            android:textSize="13sp"
+                            android:textColor="@color/status_completed"
+                            android:gravity="center" />
 
-                </LinearLayout>
-
-                <!-- Order Row 3 -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:paddingVertical="8dp">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="#FC014"
-                        android:textColor="@color/text_dark"
-                        android:textSize="14sp" />
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Scheduled"
-                        android:textColor="@color/status_completed"
-                        android:textSize="14sp"
-                        android:textStyle="bold"
-                        android:gravity="center" />
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Tomorrow, 10 AM"
-                        android:textColor="@color/text_light"
-                        android:textSize="14sp"
-                        android:gravity="end" />
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Tomorrow, 10 AM"
+                            android:textSize="13sp"
+                            android:textColor="@color/text_light"
+                            android:gravity="end" />
+                    </LinearLayout>
 
                 </LinearLayout>
 
             </LinearLayout>
-
         </com.google.android.material.card.MaterialCardView>
 
-        <!-- Pending Orders -->
+        <!-- PENDING ORDERS -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -359,15 +401,16 @@
             android:textColor="@color/text_dark"
             android:textSize="18sp"
             android:textStyle="bold"
-            android:layout_marginBottom="16dp" />
+            android:layout_marginBottom="12dp" />
 
-        <!-- Pending Order 1 -->
+        <!-- Pending order card 1 -->
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="12dp"
-            app:cardCornerRadius="12dp"
-            app:cardElevation="2dp">
+            app:cardCornerRadius="14dp"
+            app:cardElevation="3dp"
+            app:cardUseCompatPadding="true">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -375,119 +418,146 @@
                 android:orientation="vertical"
                 android:padding="16dp">
 
-                <!-- Order Header -->
+                <!-- title row -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginBottom="12px">
+                    android:orientation="horizontal">
 
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Order #FC012 - 40 kg Tomatoes"
+                        android:text="Order #FC005 • 40 kg Tomatoes"
                         android:textColor="@color/text_dark"
-                        android:textSize="16sp"
+                        android:textSize="15sp"
                         android:textStyle="bold" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Pending"
-                        android:textColor="@color/status_pending"
-                        android:textSize="12sp"
-                        android:textStyle="bold"
-                        android:background="@color/farmer_light"
-                        android:paddingHorizontal="8dp"
-                        android:paddingVertical="4dp"
-                        android:gravity="center" />
-
+                        android:text="Awaiting Confirmation"
+                        android:textColor="@color/farmer_primary"
+                        android:textSize="12sp" />
                 </LinearLayout>
 
-                <!-- Order Details -->
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="A Supermarket (Nairobi)"
-                    android:textColor="@color/text_light"
-                    android:textSize="14sp"
-                    android:layout_marginBottom="4dp" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Delivery Before: Today, 8 PM"
-                    android:textColor="@color/text_light"
-                    android:textSize="12sp" />
-
-            </LinearLayout>
-
-        </com.google.android.material.card.MaterialCardView>
-
-        <!-- Pending Order 2 -->
-        <com.google.android.material.card.MaterialCardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:cardCornerRadius="12dp"
-            app:cardElevation="2dp">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="16dp">
-
-                <!-- Order Header -->
+                <!-- bullet rows -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginBottom="12px">
+                    android:layout_marginTop="6dp"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        android:src="@drawable/ic_person"
+                        app:tint="@color/text_light" />
 
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Order #FC013 - 20 kg Carrots"
-                        android:textColor="@color/text_dark"
-                        android:textSize="16sp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Scheduled"
-                        android:textColor="@color/status_completed"
-                        android:textSize="12sp"
-                        android:textStyle="bold"
-                        android:background="@color/farmer_light"
-                        android:paddingHorizontal="8dp"
-                        android:paddingVertical="4dp"
-                        android:gravity="center" />
-
+                        android:text="Buyer: FreshMart"
+                        android:textColor="@color/text_light"
+                        android:textSize="13sp"
+                        android:layout_marginStart="6dp" />
                 </LinearLayout>
 
-                <!-- Order Details -->
-                <TextView
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="B Mart (Westlands)"
-                    android:textColor="@color/text_light"
-                    android:textSize="14sp"
-                    android:layout_marginBottom="4dp" />
+                    android:layout_marginTop="2dp"
+                    android:orientation="horizontal">
 
-                <TextView
+                    <ImageView
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        android:src="@drawable/ic_schedule_24"
+                        app:tint="@color/text_light" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Pickup: Today 4:30 PM"
+                        android:textColor="@color/text_light"
+                        android:textSize="13sp"
+                        android:layout_marginStart="6dp" />
+                </LinearLayout>
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Delivery Before: Tomorrow, 2 PM"
-                    android:textColor="@color/text_light"
-                    android:textSize="12sp" />
+                    android:layout_marginTop="2dp"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        android:src="@drawable/ic_payment"
+                        app:tint="@color/text_light" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="KES 8,000"
+                        android:textColor="@color/text_light"
+                        android:textSize="13sp"
+                        android:layout_marginStart="6dp" />
+                </LinearLayout>
+
+                <!-- buttons -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="12dp">
+
+                    <com.google.android.material.button.MaterialButton
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_weight="1"
+                        android:text="Reject"
+                        app:backgroundTint="@android:color/transparent"
+                        app:strokeWidth="1dp"
+                        app:strokeColor="@color/farmer_primary"
+                        android:textColor="@color/farmer_primary"
+                        android:textSize="14sp" />
+
+                    <Space
+                        android:layout_width="12dp"
+                        android:layout_height="0dp" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_weight="1"
+                        android:text="Confirm"
+                        app:backgroundTint="@color/farmer_primary"
+                        android:textColor="@android:color/white"
+                        android:textSize="14sp" />
+                </LinearLayout>
 
             </LinearLayout>
-
         </com.google.android.material.card.MaterialCardView>
 
     </LinearLayout>
 
-</ScrollView>
+    </ScrollView>
+    <!-- Bottom navigation -->
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottomNav"
+        android:layout_width="0dp"
+        android:layout_height="56dp"
+        app:menu="@menu/bottom_nav_menu"
+        app:itemIconTint="@color/text_light"
+        app:itemTextColor="@color/text_light"
+        app:labelVisibilityMode="labeled"
+        android:background="@android:color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

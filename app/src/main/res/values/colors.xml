@@ -12,6 +12,7 @@
     <color name="primary_blue">#2196F3</color>
     <color name="secondary_blue">#1976D2</color>
     <color name="light_blue">#64B5F6</color>
+    <color name="btnCancel_light_blue">#B6DCFE</color>
     <color name="background_blue">#F5F9FF</color>
     <color name="text_dark">#333333</color>
     <color name="text_light">#666666</color>

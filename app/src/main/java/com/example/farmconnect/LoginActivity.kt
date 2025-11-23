@@ -137,14 +137,24 @@ class LoginActivity : AppCompatActivity() {
                 
                 // Navigate to appropriate dashboard based on role
                 when (role) {
+                    "farmer" -> {
+                        val intent = Intent(this, FarmerDashboardActivity::class.java)
+                        startActivity(intent)
+                        finish()
+                    }
                     "buyer" -> {
                         val intent = Intent(this, BuyerDashboardActivity::class.java)
                         startActivity(intent)
                         finish()
                     }
-                    // Add other role-specific activities here when available
+                    "driver" -> {
+                        val intent = Intent(this, DriverDashboardActivity::class.java)
+                        startActivity(intent)
+                        finish()
+                    }
                     else -> {
-                        // Default navigation
+                        // Default navigation - fallback to buyer dashboard
+                        Toast.makeText(this, "Unknown role. Redirecting to buyer dashboard.", Toast.LENGTH_SHORT).show()
                         val intent = Intent(this, BuyerDashboardActivity::class.java)
                         startActivity(intent)
                         finish()
@@ -152,11 +162,10 @@ class LoginActivity : AppCompatActivity() {
                 }
             }
             .addOnFailureListener {
-                // If role fetch fails, still navigate to default dashboard
-                Toast.makeText(this, "Login successful!", Toast.LENGTH_SHORT).show()
-                val intent = Intent(this, BuyerDashboardActivity::class.java)
-                startActivity(intent)
-                finish()
+                // If role fetch fails, show error and don't navigate
+                Toast.makeText(this, "Failed to load user profile. Please try again.", Toast.LENGTH_LONG).show()
+                binding.btnLogin.text = "Login"
+                binding.btnLogin.isEnabled = true
             }
     }
 

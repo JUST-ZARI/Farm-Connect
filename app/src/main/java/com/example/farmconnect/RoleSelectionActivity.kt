@@ -68,30 +68,7 @@ class RoleSelectionActivity : AppCompatActivity() {
     }
 
     private fun navigateBasedOnRole() {
-        when (selectedRole) {
-            "farmer" -> navigateToFarmerDashboard()
-            "buyer" -> navigateToBuyerDashboard()
-            "driver" -> navigateToDriverDashboard()
-            else -> navigateToSignUp() // Fallback
-        }
-    }
-
-    private fun navigateToFarmerDashboard() {
-        val intent = Intent(this, FarmerDashboardActivity::class.java)
-        startActivity(intent)
-        finish()
-    }
-
-    private fun navigateToBuyerDashboard() {
-        val intent = Intent(this, BuyerDashboardActivity::class.java)
-        startActivity(intent)
-        finish()
-    }
-
-    private fun navigateToDriverDashboard() {
-        // If you create a DriverDashboardActivity later, add it here
-        // For now, redirect to sign up or show message
-        Toast.makeText(this, "Driver dashboard coming soon!", Toast.LENGTH_SHORT).show()
+        // Always navigate to SignUpActivity when a role is selected
         navigateToSignUp()
     }
 
@@ -102,6 +79,9 @@ class RoleSelectionActivity : AppCompatActivity() {
             }
             startActivity(intent)
             finish()
+        } ?: run {
+            // If no role selected, show a message
+            Toast.makeText(this, "Please select a role first", Toast.LENGTH_SHORT).show()
         }
     }
 }
