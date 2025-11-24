@@ -165,7 +165,7 @@
                     android:text="Login"
                     android:textSize="16sp"
                     android:textStyle="bold"
-                    android:backgroundTint="@color/secondary_blue"
+                    android:backgroundTint="@color/primary_blue"
                     android:paddingVertical="16dp"
                     android:layout_marginBottom="8dp"
                     app:cornerRadius="8dp" />

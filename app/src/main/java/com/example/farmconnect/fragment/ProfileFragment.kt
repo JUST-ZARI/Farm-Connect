@@ -1,62 +1,51 @@
-package com.example.farmconnect
+package com.example.farmconnect.fragment
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
-import androidx.cardview.widget.CardView
+import androidx.fragment.app.Fragment
+import com.example.farmconnect.LoginActivity
+import com.example.farmconnect.PaymentActivity
+import com.example.farmconnect.R
+import com.example.farmconnect.databinding.FragmentProfileBinding
 
-class ProfileActivity : AppCompatActivity() {
+class ProfileFragment : Fragment() {
 
-    private lateinit var profileName: TextView
-    private lateinit var paymentMethodOption: LinearLayout
-    private lateinit var changePasswordOption: LinearLayout
-    private lateinit var notificationOption: LinearLayout
-    private lateinit var privacyOption: LinearLayout
-    private lateinit var logoutOption: LinearLayout
+    private var _binding: FragmentProfileBinding? = null
+    private val binding get() = _binding!!
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_profile)
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        _binding = FragmentProfileBinding.inflate(inflater, container, false)
+        return binding.root
+    }
 
-        initializeViews()
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         setupClickListeners()
         loadUserData()
     }
 
-    private fun initializeViews() {
-        profileName = findViewById(R.id.profileName)
-        paymentMethodOption = findViewById(R.id.paymentMethodOption)
-        changePasswordOption = findViewById(R.id.changePasswordOption)
-        notificationOption = findViewById(R.id.notificationOption)
-        privacyOption = findViewById(R.id.privacyOption)
-        logoutOption = findViewById(R.id.logoutOption)
-    }
-
     private fun setupClickListeners() {
         // Payment Method Option
-        paymentMethodOption.setOnClickListener {
+        binding.paymentMethodOption.setOnClickListener {
             navigateToPaymentMethod()
         }
 
         // Change Password Option
-        changePasswordOption.setOnClickListener {
+        binding.changePasswordOption.setOnClickListener {
             showChangePasswordDialog()
         }
 
-        /*// Notification Settings
-        notificationOption.setOnClickListener {
-            navigateToNotificationSettings()
-        }*/
-
-        /*// Privacy Settings
-        privacyOption.setOnClickListener {
-            navigateToPrivacySettings()
-        }*/
-
         // Logout Option
-        logoutOption.setOnClickListener {
+        binding.logoutOption.setOnClickListener {
             showLogoutConfirmation()
         }
     }
@@ -65,7 +54,7 @@ class ProfileActivity : AppCompatActivity() {
         // Here you would typically load user data from your data source
         // For now, we'll use the hardcoded name from the design
         val userName = "Alex Mull"
-        profileName.text = userName
+        binding.profileName.text = userName
 
         // You can load more user data here like:
         // - Profile picture
@@ -74,11 +63,8 @@ class ProfileActivity : AppCompatActivity() {
     }
 
     private fun navigateToPaymentMethod() {
-        val intent = Intent(this, PaymentActivity::class.java)
+        val intent = Intent(requireContext(), PaymentActivity::class.java)
         startActivity(intent)
-
-        // Optional: Add animation
-        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
     }
 
     private fun showChangePasswordDialog() {
@@ -88,7 +74,7 @@ class ProfileActivity : AppCompatActivity() {
         val newPassword = dialogView.findViewById<EditText>(R.id.newPassword)
         val confirmPassword = dialogView.findViewById<EditText>(R.id.confirmPassword)
 
-        AlertDialog.Builder(this)
+        AlertDialog.Builder(requireContext())
             .setTitle("Change Password")
             .setView(dialogView)
             .setPositiveButton("Change") { dialog, _ ->
@@ -132,7 +118,6 @@ class ProfileActivity : AppCompatActivity() {
             return false
         }
 
-        // Add more validation as needed
         return true
     }
 
@@ -141,27 +126,10 @@ class ProfileActivity : AppCompatActivity() {
         // This would typically involve API calls to your backend
 
         showToast("Password changed successfully")
-
-        // You might want to log the user out after password change
-        // or just return to the previous screen
     }
 
-    /*private fun navigateToNotificationSettings() {
-        // Navigate to Notification Settings Activity
-        val intent = Intent(this, NotificationSettingsActivity::class.java)
-        startActivity(intent)
-        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
-    }*/
-
-    /*private fun navigateToPrivacySettings() {
-        // Navigate to Privacy Settings Activity
-        val intent = Intent(this, PrivacySettingsActivity::class.java)
-        startActivity(intent)
-        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
-    }*/
-
     private fun showLogoutConfirmation() {
-        AlertDialog.Builder(this)
+        AlertDialog.Builder(requireContext())
             .setTitle("Logout")
             .setMessage("Are you sure you want to logout?")
             .setPositiveButton("Logout") { dialog, _ ->
@@ -183,25 +151,25 @@ class ProfileActivity : AppCompatActivity() {
 
         showToast("Logged out successfully")
 
-        // Example: Navigate to Login Activity
-        val intent = Intent(this, LoginActivity::class.java)
+        // Navigate to Login Activity
+        val intent = Intent(requireContext(), LoginActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         startActivity(intent)
-        finish()
+        requireActivity().finish()
     }
 
     private fun showToast(message: String) {
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
     }
 
     // Method to update profile name if needed
     fun updateProfileName(newName: String) {
-        profileName.text = newName
+        binding.profileName.text = newName
     }
 
-    // Method to handle profile picture change
-    fun changeProfilePicture() {
-        // Implement profile picture change logic
-        // This could open camera or gallery to select new picture
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }
+

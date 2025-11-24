@@ -31,7 +31,6 @@ class ProductAdapter(
         val product = products[position]
 
         // Set product emoji
-        holder.tvProductEmoji.text = product.emoji
         holder.tvProductName.text = product.name
         holder.tvProductPrice.text = "$${product.price}/${product.unit}"
 

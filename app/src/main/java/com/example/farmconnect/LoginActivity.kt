@@ -135,20 +135,24 @@ class LoginActivity : AppCompatActivity() {
                 
                 Toast.makeText(this, "Login successful!", Toast.LENGTH_SHORT).show()
                 
-                // Navigate to appropriate dashboard based on role
-                when (role) {
+                // Navigate to appropriate main activity based on role
+                // Each main activity hosts fragments via Navigation Component
+                when (role.lowercase()) {
                     "farmer" -> {
                         val intent = Intent(this, FarmerDashboardActivity::class.java)
+                        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                         startActivity(intent)
                         finish()
                     }
                     "buyer" -> {
                         val intent = Intent(this, BuyerDashboardActivity::class.java)
+                        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                         startActivity(intent)
                         finish()
                     }
                     "driver" -> {
                         val intent = Intent(this, DriverDashboardActivity::class.java)
+                        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                         startActivity(intent)
                         finish()
                     }
@@ -156,6 +160,7 @@ class LoginActivity : AppCompatActivity() {
                         // Default navigation - fallback to buyer dashboard
                         Toast.makeText(this, "Unknown role. Redirecting to buyer dashboard.", Toast.LENGTH_SHORT).show()
                         val intent = Intent(this, BuyerDashboardActivity::class.java)
+                        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                         startActivity(intent)
                         finish()
                     }

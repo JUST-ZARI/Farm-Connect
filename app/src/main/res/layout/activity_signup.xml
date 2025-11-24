@@ -164,7 +164,8 @@
             android:layout_height="56dp"
             android:text="Sign Up"
             android:layout_marginBottom="24dp"
-            android:elevation="2dp" />
+            android:elevation="2dp"
+            android:backgroundTint="@color/primary_blue"/>
 
         <!-- Already have an account? -->
         <TextView

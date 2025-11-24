@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Base.Theme.FarmConnect" parent="Theme.Material3.DayNight">
+    <style name="Base.Theme.FarmConnect" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="colorPrimary">@color/primary_blue</item>
         <item name="colorPrimaryVariant">@color/secondary_blue</item>
         <item name="colorOnPrimary">@color/white</item>
@@ -8,6 +8,11 @@
     </style>
 
     <style name="Theme.FarmConnect" parent="Base.Theme.FarmConnect" />
+
+    <style name="Theme.FarmConnect.Splash" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="android:windowBackground">@android:color/white</item>
+
+    </style>
 
     <!-- Custom styles for SignUp page -->
     <style name="FarmConnectButton" parent="Widget.Material3.Button">

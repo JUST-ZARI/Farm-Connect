@@ -263,8 +263,8 @@
             android:id="@+id/bottomNavigation"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/bottom_nav_background"
-            app:menu="@menu/bottom_nav_menu"
+            android:background="@color/white"
+            app:menu="@menu/bottom_navigation_menu_driver"
             app:itemIconTint="@color/bottom_nav_icon_selector"
             app:itemTextColor="@color/bottom_nav_icon_selector"
             app:elevation="8dp" />

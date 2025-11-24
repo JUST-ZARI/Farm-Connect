@@ -12,7 +12,6 @@
         android:layout_height="56dp"
         android:background="@android:color/white"
         android:elevation="4dp"
-        app:navigationIcon="@drawable/ic_arrow_back"
         app:title="My Market"
         app:titleCentered="true"
         app:titleTextColor="@android:color/black"
@@ -29,7 +28,7 @@
         app:layout_constraintTop_toBottomOf="@id/toolbar"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/bottomNav">
+        app:layout_constraintBottom_toBottomOf="parent">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -52,7 +51,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:padding="16dp">
+                    android:padding="16dp"
+                    android:background="@color/white">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -67,35 +67,50 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Photos"
+                        android:text="Product Image"
                         android:textColor="@android:color/black"
                         android:textSize="14sp"
                         android:layout_marginBottom="6dp"/>
 
-                    <LinearLayout
+                    <!-- Selected Image Preview -->
+                    <ImageView
+                        android:id="@+id/ivProductImage"
+                        android:layout_width="120dp"
+                        android:layout_height="120dp"
+                        android:scaleType="centerCrop"
+                        android:background="#F5F5F5"
+                        android:visibility="gone"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginBottom="12dp"
+                        android:contentDescription="Product image preview"/>
+
+                    <com.google.android.material.button.MaterialButton
                         android:id="@+id/btnUploadPhotos"
-                        android:layout_width="match_parent"
-                        android:layout_height="44dp"
-                        android:gravity="center_vertical"
-                        android:paddingStart="12dp"
-                        android:paddingEnd="12dp"
-                        android:background="@drawable/bg_upload_box"
-                        android:layout_marginBottom="16dp">
+                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Select Image"
+                        android:textColor="@color/text_light"
+                        app:icon="@drawable/ic_add_image"
+                        app:iconTint="@color/text_light"
+                        app:strokeColor="@color/text_light"
+                        app:strokeWidth="1dp"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginBottom="16dp"/>
 
-                        <ImageView
-                            android:layout_width="18dp"
-                            android:layout_height="18dp"
-                            android:src="@drawable/ic_add_image"
-                            android:layout_marginEnd="8dp"
-                            app:tint="#9E9E9E" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Upload product images"
-                            android:textColor="#9E9E9E"
-                            android:textSize="13sp"/>
-                    </LinearLayout>
+                    <!-- Remove Image Button (shown only when an image is selected) -->
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnRemoveImage"
+                        style="@style/Widget.MaterialComponents.Button.TextButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Remove Image"
+                        android:textColor="#F44336"
+                        app:icon="@drawable/ic_remove"
+                        app:iconTint="#F44336"
+                        android:visibility="gone"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginBottom="16dp"/>
 
                     <!-- Name / Unit row -->
                     <LinearLayout
@@ -235,6 +250,15 @@
                         android:textSize="14sp"
                         android:layout_marginBottom="16dp"/>
 
+                    <!-- Global Images Checkbox -->
+                    <com.google.android.material.checkbox.MaterialCheckBox
+                        android:id="@+id/cbGlobalImages"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Use global images"
+                        android:textSize="14sp"
+                        android:layout_marginBottom="16dp"/>
+
                     <!-- Buttons row -->
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -291,7 +315,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:padding="12dp">
+                    android:padding="12dp"
+                    android:background="@color/white">
 
                     <ImageView
                         android:layout_width="64dp"
@@ -352,7 +377,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:padding="12dp">
+                    android:padding="12dp"
+                    android:background="@color/white">
 
                     <ImageView
                         android:layout_width="64dp"
@@ -412,7 +438,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:padding="12dp">
+                    android:padding="12dp"
+                    android:background="@color/white">
 
                     <ImageView
                         android:layout_width="64dp"
@@ -459,18 +486,5 @@
         </LinearLayout>
     </ScrollView>
 
-    <!-- Bottom navigation -->
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottomNav"
-        android:layout_width="0dp"
-        android:layout_height="56dp"
-        app:menu="@menu/bottom_nav_menu"
-        app:itemIconTint="@color/text_light"
-        app:itemTextColor="@color/text_light"
-        app:labelVisibilityMode="labeled"
-        android:background="@android:color/white"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
-
 </androidx.constraintlayout.widget.ConstraintLayout>
+

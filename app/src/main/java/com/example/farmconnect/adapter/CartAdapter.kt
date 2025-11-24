@@ -36,7 +36,6 @@ class CartAdapter(
     override fun onBindViewHolder(holder: CartViewHolder, position: Int) {
         val cartItem = cartItems[position]
 
-        holder.tvProductEmoji.text = cartItem.emoji
         holder.tvProductName.text = cartItem.name
         holder.tvProductPrice.text = "$${cartItem.price} / ${cartItem.unit}"
         holder.tvQuantity.text = cartItem.quantity.toString()

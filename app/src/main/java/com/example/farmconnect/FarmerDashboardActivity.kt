@@ -1,24 +1,27 @@
 package com.example.farmconnect
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.example.farmconnect.databinding.ActivityFarmerDashboardBinding
+import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.setupWithNavController
+import com.example.farmconnect.databinding.ActivityFarmerMainBinding
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class FarmerDashboardActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityFarmerDashboardBinding
+    private lateinit var binding: ActivityFarmerMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityFarmerDashboardBinding.inflate(layoutInflater)
+        binding = ActivityFarmerMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // You can add click listeners and data loading here
-        setupClickListeners()
-    }
-
-    private fun setupClickListeners() {
-        // Add functionality for order items, etc.
-        // For example, you can make orders clickable to view details
+        // Setup bottom navigation with Navigation Component
+        val navHostFragment = supportFragmentManager
+            .findFragmentById(R.id.navHostFragment) as NavHostFragment
+        val navController = navHostFragment.navController
+        
+        val bottomNav = findViewById<BottomNavigationView>(R.id.bottomNav)
+        bottomNav.setupWithNavController(navController)
     }
 }

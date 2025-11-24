@@ -9,7 +9,6 @@ data class Product(
     val price: Double,
     val quantity: String,
     val unit: String,
-    val emoji: String,
     val imageUrl: String? = null,
     val category: String,
     val owner: String

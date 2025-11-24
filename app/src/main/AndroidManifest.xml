@@ -11,21 +11,35 @@
     <!--  permissions for phone calls and maps -->
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <!-- Permissions for image uploads -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" 
+        android:maxSdkVersion="32" />
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" 
+        android:minSdkVersion="33" />
 
     <application
         android:name=".FarmConnectApplication"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/ic_farm_shop"
         android:label="@string/app_name"
         android:theme="@style/Theme.FarmConnect">
 
         <activity
-            android:name=".RoleSelectionActivity"
-            android:exported="true">
+            android:name=".SplashScreen"
+            android:exported="true"
+            android:theme="@style/Theme.FarmConnect.Splash">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".RoleSelectionActivity"
+            android:exported="true"
+            android:theme="@style/Theme.FarmConnect">
+
         </activity>
 
         <activity android:name=".LoginActivity" />
@@ -37,12 +51,6 @@
             android:exported="false" />
         <activity
             android:name=".FarmerDashboardActivity"
-            android:exported="false" />
-        <activity
-            android:name=".FarmersMarketActivity"
-            android:windowSoftInputMode="adjustResize" />
-        <activity
-            android:name=".CartActivity"
             android:exported="false" />
         <activity
             android:name=".DriverDashboardActivity"
@@ -62,10 +70,6 @@
         <activity
             android:name=".PaymentActivity"
             android:label="Payment"
-            android:theme="@style/Theme.AppCompat.Light.DarkActionBar" />
-        <activity
-            android:name=".ProfileActivity"
-            android:label="Profile"
             android:theme="@style/Theme.AppCompat.Light.DarkActionBar" />
 
         <!-- Google Maps API key and permissions -->
