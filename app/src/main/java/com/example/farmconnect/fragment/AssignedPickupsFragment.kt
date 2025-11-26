@@ -11,8 +11,8 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.farmconnect.R
 import com.example.farmconnect.databinding.FragmentAssignedPickupsBinding
-import com.google.android.material.bottomsheet.BottomSheetDialog
-import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.example.farmconnect.JobDetailsActivity
+import com.example.farmconnect.RecordPickupActivity
 
 class AssignedPickupsFragment : Fragment() {
 
@@ -55,13 +55,21 @@ class AssignedPickupsFragment : Fragment() {
     }
 
     private fun onMapDestinationClicked(pickupId: Int) {
-        // Navigate to JobDetailsActivity
-        findNavController().navigate(R.id.action_assignedPickupsFragment_to_jobDetailsActivity)
+        // Open JobDetailsActivity with optional extra
+        val context = requireContext()
+        val intent = Intent(context, JobDetailsActivity::class.java).apply {
+            putExtra("PICKUP_ID", pickupId)   // if you want to pass which job
+        }
+        startActivity(intent)
     }
 
     private fun onRecordPickupClicked(pickupId: Int) {
-        // Navigate to RecordPickupActivity
-        findNavController().navigate(R.id.action_assignedPickupsFragment_to_recordPickupActivity)
+        // Open RecordPickupActivity with optional extra
+        val context = requireContext()
+        val intent = Intent(context, RecordPickupActivity::class.java).apply {
+            putExtra("PICKUP_ID", pickupId)
+        }
+        startActivity(intent)
     }
 
 
