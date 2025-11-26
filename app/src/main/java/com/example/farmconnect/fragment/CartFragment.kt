@@ -13,6 +13,7 @@ import com.example.farmconnect.DeliveryDetailsActivity
 import com.example.farmconnect.R
 import com.example.farmconnect.adapter.CartAdapter
 import com.example.farmconnect.databinding.FragmentCartBinding
+import com.example.farmconnect.manager.CartManager
 import com.example.farmconnect.model.CartItem
 import com.example.farmconnect.model.Order
 import com.example.farmconnect.model.Product
@@ -35,12 +36,17 @@ class CartFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        
-        // Receive cart items from arguments
-        receiveCartItems()
+
         setupRecyclerView()
+        loadCartItems()
         setupClickListeners()
         updateOrderSummary()
+    }
+
+    private fun loadCartItems() {
+        cartItems.clear()
+        cartItems.addAll(CartManager.getCartItems())
+        cartAdapter.notifyDataSetChanged()
     }
 
     private fun receiveCartItems() {
@@ -67,9 +73,13 @@ class CartFragment : Fragment() {
     private fun setupRecyclerView() {
         cartAdapter = CartAdapter(
             cartItems,
-            onQuantityChanged = { updateOrderSummary() },
+            onQuantityChanged = { item -> 
+            CartManager.updateCartItem(item)
+            updateOrderSummary() 
+            },
             onItemRemoved = { item ->
                 cartItems.remove(item)
+                CartManager.removeFromCart(item)
                 updateOrderSummary()
                 Toast.makeText(requireContext(), "Removed ${item.name}", Toast.LENGTH_SHORT).show()
             }
@@ -122,11 +132,11 @@ class CartFragment : Fragment() {
         }
         val total = subtotal + deliveryFee
 
-        binding.tvSubtotal.text = "$${String.format("%.2f", subtotal)}"
-        binding.tvDeliveryFee.text = "$${String.format("%.2f", deliveryFee)}"
-        binding.tvTotal.text = "$${String.format("%.2f", total)}"
+        binding.tvSubtotal.text = "KES ${String.format("%.2f", subtotal)}"
+        binding.tvDeliveryFee.text = "KES ${String.format("%.2f", deliveryFee)}"
+        binding.tvTotal.text = "KES ${String.format("%.2f", total)}"
 
-        cartAdapter.updateCartItems(cartItems)
+        //cartAdapter.updateCartItems(cartItems)
     }
 
     private fun proceedToCheckout() {
@@ -140,7 +150,7 @@ class CartFragment : Fragment() {
                 name = it.name,
                 description = "",
                 price = it.price,
-                quantity = it.quantity.toString(),
+                quantity = it.quantity,
                 unit = it.unit,
                 imageUrl = null,
                 category = "",

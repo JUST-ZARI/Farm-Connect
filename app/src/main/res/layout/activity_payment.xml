@@ -49,12 +49,13 @@
 
                 <!-- M-Pesa -->
                 <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardMpesa"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
                     app:cardCornerRadius="12dp"
                     app:cardUseCompatPadding="true"
-                    app:strokeColor="#E0E0E0"
+                    app:strokeColor="@color/border_light"
                     app:strokeWidth="1dp">
 
                     <LinearLayout
@@ -81,7 +82,7 @@
                             android:textSize="14sp" />
 
                         <RadioButton
-                            android:id="@+id/mpassRadio"
+                            android:id="@+id/mpesaRadio"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:buttonTint="#2196F3" />
@@ -90,12 +91,13 @@
 
                 <!-- Bank Transfer -->
                 <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardBankTransfer"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
                     app:cardCornerRadius="12dp"
                     app:cardUseCompatPadding="true"
-                    app:strokeColor="#2196F3"
+                    app:strokeColor="@color/border_light"
                     app:strokeWidth="1dp">
 
                     <LinearLayout
@@ -125,19 +127,19 @@
                             android:id="@+id/bankTransferRadio"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:checked="true"
                             android:buttonTint="#2196F3" />
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
 
                 <!-- Stripe -->
                 <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardStripe"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="16dp"
                     app:cardCornerRadius="12dp"
                     app:cardUseCompatPadding="true"
-                    app:strokeColor="#E0E0E0"
+                    app:strokeColor="@color/border_light"
                     app:strokeWidth="1dp">
 
                     <LinearLayout
@@ -171,6 +173,60 @@
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
             </RadioGroup>
+
+            <!-- M-Pesa Details Card -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/mpesaDetailsSection"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="24dp"
+                android:visibility="gone"
+                app:cardCornerRadius="16dp"
+                app:cardUseCompatPadding="true"
+                app:strokeColor="#E0E0E0"
+                app:strokeWidth="1dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp"
+                    android:background="@color/white">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="M-Pesa Payment Details"
+                        android:textColor="#000000"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:layout_marginBottom="12dp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="PayBill Number"
+                        android:textColor="#9E9E9E"
+                        android:textSize="13sp" />
+
+                    <TextView
+                        android:id="@+id/mpesaPaybill"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="123456"
+                        android:textColor="#000000"
+                        android:textSize="13sp"
+                        android:textStyle="bold"
+                        android:layout_marginBottom="8dp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Account (Your Order Number)"
+                        android:textColor="#9E9E9E"
+                        android:textSize="13sp" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
 
             <!-- Bank Transfer Details Card -->
             <com.google.android.material.card.MaterialCardView
@@ -305,6 +361,43 @@
                             android:textStyle="bold"
                             android:gravity="end" />
                     </LinearLayout>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Stripe Details Card -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/stripeDetailsSection"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="24dp"
+                android:visibility="gone"
+                app:cardCornerRadius="16dp"
+                app:cardUseCompatPadding="true"
+                app:strokeColor="#E0E0E0"
+                app:strokeWidth="1dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp"
+                    android:background="@color/white">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Stripe Payment Details"
+                        android:textColor="#000000"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:layout_marginBottom="12dp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="You will be redirected to a secure card payment page."
+                        android:textColor="#9E9E9E"
+                        android:textSize="13sp" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 

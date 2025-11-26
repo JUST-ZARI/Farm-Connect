@@ -54,6 +54,10 @@ class PickupDetailsActivity : AppCompatActivity() {
     }
 
     private fun setupClickListeners() {
+        // Back button
+        binding.btnBack.setOnClickListener {
+            onBackPressedDispatcher.onBackPressed()
+        }
         // Phone number click - make call
         binding.tvFarmerPhone.setOnClickListener {
             makePhoneCall(pickup.farmerPhone)

@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white">
@@ -301,189 +303,16 @@
                 android:textColor="@android:color/black"
                 android:layout_marginBottom="12dp"/>
 
-            <!-- Product item 1 -->
-            <com.google.android.material.card.MaterialCardView
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvProducts"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="12dp"
-                app:cardCornerRadius="16dp"
-                app:cardUseCompatPadding="true"
-                app:cardElevation="1dp"
-                app:strokeWidth="1dp"
-                app:strokeColor="#EEEEEE">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:padding="12dp"
-                    android:background="@color/white">
-
-                    <ImageView
-                        android:layout_width="64dp"
-                        android:layout_height="64dp"
-                        android:src="@drawable/sample_tomatoes"
-                        android:scaleType="centerCrop"
-                        android:background="@drawable/bg_product_image"
-                        android:layout_marginEnd="12dp"/>
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Organic Tomatoes"
-                            android:textStyle="bold"
-                            android:textColor="@android:color/black"
-                            android:textSize="15sp"
-                            android:layout_marginBottom="4dp"/>
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Qty: 50 kg · KES 120/kg"
-                            android:textColor="#757575"
-                            android:textSize="13sp"/>
-
-                        <com.google.android.material.button.MaterialButton
-                            android:id="@+id/btnEditTomatoes"
-                            android:layout_width="wrap_content"
-                            android:layout_height="35dp"
-                            android:text="Edit"
-                            android:textAllCaps="false"
-                            android:textSize="13sp"
-                            android:layout_marginTop="8dp"
-                            app:backgroundTint="#E3F2FD"
-                            android:textColor="#2196F3"/>
-                    </LinearLayout>
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
-
-            <!-- Product item 2 -->
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="12dp"
-                app:cardCornerRadius="16dp"
-                app:cardUseCompatPadding="true"
-                app:cardElevation="1dp"
-                app:strokeWidth="1dp"
-                app:strokeColor="#EEEEEE">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:padding="12dp"
-                    android:background="@color/white">
-
-                    <ImageView
-                        android:layout_width="64dp"
-                        android:layout_height="64dp"
-                        android:src="@drawable/sample_lettuce"
-                        android:scaleType="centerCrop"
-                        android:background="@drawable/bg_product_image"
-                        android:layout_marginEnd="12dp"/>
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Fresh Lettuce"
-                            android:textStyle="bold"
-                            android:textColor="@android:color/black"
-                            android:textSize="15sp"
-                            android:layout_marginBottom="4dp"/>
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Qty: 20 kg · KES 90/kg"
-                            android:textColor="#757575"
-                            android:textSize="13sp"/>
-
-                        <com.google.android.material.button.MaterialButton
-                            android:layout_width="wrap_content"
-                            android:layout_height="35dp"
-                            android:text="Edit"
-                            android:textAllCaps="false"
-                            android:textSize="13sp"
-                            android:layout_marginTop="8dp"
-                            app:backgroundTint="#E3F2FD"
-                            android:textColor="#2196F3"/>
-                    </LinearLayout>
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
-
-            <!-- Product item 3 -->
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="36dp"
-                app:cardCornerRadius="16dp"
-                app:cardUseCompatPadding="true"
-                app:cardElevation="1dp"
-                app:strokeWidth="1dp"
-                app:strokeColor="#EEEEEE">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:padding="12dp"
-                    android:background="@color/white">
-
-                    <ImageView
-                        android:layout_width="64dp"
-                        android:layout_height="64dp"
-                        android:src="@drawable/sample_onions"
-                        android:scaleType="centerCrop"
-                        android:background="@drawable/bg_product_image"
-                        android:layout_marginEnd="12dp"/>
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Red Onions"
-                            android:textStyle="bold"
-                            android:textColor="@android:color/black"
-                            android:textSize="15sp"
-                            android:layout_marginBottom="4dp"/>
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Qty: 35 kg · KES 70/kg"
-                            android:textColor="#757575"
-                            android:textSize="13sp"/>
-
-                        <com.google.android.material.button.MaterialButton
-                            android:layout_width="wrap_content"
-                            android:layout_height="35dp"
-                            android:text="Edit"
-                            android:textAllCaps="false"
-                            android:textSize="13sp"
-                            android:layout_marginTop="8dp"
-                            app:backgroundTint="#E3F2FD"
-                            android:textColor="#2196F3"/>
-                    </LinearLayout>
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
+                android:clipToPadding="false"
+                android:paddingTop="8dp"
+                android:paddingBottom="16dp"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:listitem="@layout/item_product" />
+            
         </LinearLayout>
     </ScrollView>
 

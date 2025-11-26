@@ -16,14 +16,14 @@
         android:background="@color/white">
 
         <!-- Product Icon -->
-        <TextView
-            android:id="@+id/tvProductEmoji"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:gravity="center"
-            android:text="🍅"
-            android:textSize="24sp"
-            android:background="@drawable/product_image_background" />
+        <ImageView
+            android:id="@+id/ivCartProductImage"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:scaleType="centerCrop"
+            android:adjustViewBounds="true"
+            android:src="@drawable/ic_image_placeholder"
+            android:layout_marginEnd="12dp" />
 
         <!-- Product Details -->
         <LinearLayout
@@ -56,43 +56,51 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_marginTop="12px">
+                android:layout_marginTop="12dp"
+                android:gravity="center_vertical">
 
-                <Button
+                <TextView
                     android:id="@+id/btnDecrease"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:gravity="center"
                     android:text="-"
-                    android:textSize="14sp"
-                    android:background="@color/quantity_control_background"
-                    android:textColor="@color/primary_blue" />
+                    android:textSize="20dp"
+                    android:textColor="@color/primary_blue"
+                    android:background="@drawable/bg_quantity_button"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?attr/selectableItemBackgroundBorderless" />
 
                 <TextView
                     android:id="@+id/tvQuantity"
                     android:layout_width="40dp"
-                    android:layout_height="30dp"
+                    android:layout_height="32dp"
                     android:gravity="center"
                     android:text="3"
                     android:textColor="@color/text_dark"
                     android:textSize="14sp"
-                    android:textStyle="bold"
-                    android:background="@color/white" />
+                    android:textStyle="bold" />
 
-                <Button
+                <TextView
                     android:id="@+id/btnIncrease"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:gravity="center"
                     android:text="+"
-                    android:textSize="14sp"
-                    android:background="@color/quantity_control_background"
-                    android:textColor="@color/primary_blue" />
+                    android:textSize="16sp"
+                    android:textColor="@color/primary_blue"
+                    android:background="@drawable/bg_quantity_button"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?attr/selectableItemBackgroundBorderless" />
 
                 <TextView
                     android:id="@+id/tvTotalPrice"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Ksh7.50"
+                    android:text="KES 7.50"
                     android:textColor="@color/text_dark"
                     android:textSize="14sp"
                     android:textStyle="bold"

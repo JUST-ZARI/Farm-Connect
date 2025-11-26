@@ -3,12 +3,13 @@ package com.example.farmconnect.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.farmconnect.R
 import com.example.farmconnect.model.CartItem
+import com.bumptech.glide.Glide
 
 class CartAdapter(
     private var cartItems: List<CartItem>,
@@ -17,13 +18,13 @@ class CartAdapter(
 ) : RecyclerView.Adapter<CartAdapter.CartViewHolder>() {
 
     class CartViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val tvProductEmoji: TextView = itemView.findViewById(R.id.tvProductEmoji)
+        val ivProductImage: ImageView = itemView.findViewById(R.id.ivCartProductImage)
         val tvProductName: TextView = itemView.findViewById(R.id.tvProductName)
         val tvProductPrice: TextView = itemView.findViewById(R.id.tvProductPrice)
         val tvQuantity: TextView = itemView.findViewById(R.id.tvQuantity)
         val tvTotalPrice: TextView = itemView.findViewById(R.id.tvTotalPrice)
-        val btnDecrease: Button = itemView.findViewById(R.id.btnDecrease)
-        val btnIncrease: Button = itemView.findViewById(R.id.btnIncrease)
+        val btnDecrease: TextView = itemView.findViewById(R.id.btnDecrease)
+        val btnIncrease: TextView = itemView.findViewById(R.id.btnIncrease)
         val btnRemove: ImageButton = itemView.findViewById(R.id.btnRemove)
     }
 
@@ -37,9 +38,21 @@ class CartAdapter(
         val cartItem = cartItems[position]
 
         holder.tvProductName.text = cartItem.name
-        holder.tvProductPrice.text = "$${cartItem.price} / ${cartItem.unit}"
+        holder.tvProductPrice.text = "KES ${cartItem.price}/${cartItem.unit}kg"
         holder.tvQuantity.text = cartItem.quantity.toString()
-        holder.tvTotalPrice.text = "$${String.format("%.2f", cartItem.getTotalPrice())}"
+        holder.tvTotalPrice.text = "KES ${String.format("%.2f", cartItem.getTotalPrice())}"
+
+        // Load image if available
+        cartItem.imageUrl?.let { url ->
+            Glide.with(holder.itemView.context)
+                .load(url)
+                .centerCrop() // or .fitCenter() if you prefer no cropping
+                .placeholder(R.drawable.ic_image_placeholder)
+                .error(R.drawable.ic_image_placeholder)
+                .into(holder.ivProductImage)
+        } ?: run {
+            holder.ivProductImage.setImageResource(R.drawable.ic_image_placeholder)
+        }
 
         holder.btnDecrease.setOnClickListener {
             if (cartItem.quantity > 1) {
@@ -59,6 +72,8 @@ class CartAdapter(
             onItemRemoved(cartItem)
         }
     }
+
+
 
     override fun getItemCount(): Int = cartItems.size
 

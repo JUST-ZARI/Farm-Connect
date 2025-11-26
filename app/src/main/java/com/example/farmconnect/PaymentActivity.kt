@@ -1,63 +1,85 @@
 package com.example.farmconnect
 
+import android.content.Intent
 import android.os.Bundle
-import android.view.Gravity
+import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.cardview.widget.CardView
-import com.example.farmconnect.databinding.ActivityDeliveryDetailsBinding
 import com.example.farmconnect.databinding.ActivityPaymentBinding
 import com.google.android.material.card.MaterialCardView
 
 class PaymentActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityPaymentBinding
-    private lateinit var paymentMethodGroup: RadioGroup
-    private lateinit var bankDetailsSection: MaterialCardView
-    private lateinit var mpassRadio: RadioButton
-    private lateinit var bankTransferRadio: RadioButton
-    private lateinit var stripeRadio: RadioButton
-    private lateinit var confirmPaymentButton: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityPaymentBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        initializeViews()
         setupListeners()
         setupToolbar()
     }
 
-    private fun initializeViews() {
-        paymentMethodGroup = findViewById(R.id.paymentMethodGroup)
-        bankDetailsSection = findViewById(R.id.bankDetailsSection)
-        mpassRadio = findViewById(R.id.mpassRadio)
-        bankTransferRadio = findViewById(R.id.bankTransferRadio)
-        stripeRadio = findViewById(R.id.stripeRadio)
-        confirmPaymentButton = findViewById(R.id.btnProcessPayment)
-
-        // Set bank transfer as default selected
-        bankTransferRadio.isChecked = true
-    }
-
     private fun setupListeners() {
-        paymentMethodGroup.setOnCheckedChangeListener { group, checkedId ->
-            when (checkedId) {
+        // Helper: ensure only one radio is checked
+        fun selectMethod(selected: RadioButton) {
+            val radios = listOf(
+                binding.mpesaRadio,
+                binding.bankTransferRadio,
+                binding.stripeRadio
+            )
+
+            radios.forEach { it.isChecked = (it == selected) }
+
+            when (selected.id) {
                 R.id.bankTransferRadio -> {
+                    highlightSelectedCard(binding.cardBankTransfer)
                     showBankTransferDetails()
                 }
-                R.id.mpassRadio -> {
-                    showMPassDetails()
+                R.id.mpesaRadio -> {
+                    highlightSelectedCard(binding.cardMpesa)
+                    showMPesaDetails()
                 }
                 R.id.stripeRadio -> {
+                    highlightSelectedCard(binding.cardStripe)
                     showStripeDetails()
                 }
             }
         }
 
-        confirmPaymentButton.setOnClickListener {
+        // Make radios themselves clickable
+        binding.mpesaRadio.setOnClickListener {
+            selectMethod(binding.mpesaRadio)
+        }
+
+        binding.bankTransferRadio.setOnClickListener {
+            selectMethod(binding.bankTransferRadio)
+        }
+
+        binding.stripeRadio.setOnClickListener {
+            selectMethod(binding.stripeRadio)
+        }
+
+        // Make the whole cards clickable too
+        binding.cardMpesa.setOnClickListener {
+            selectMethod(binding.mpesaRadio)
+        }
+
+        binding.cardBankTransfer.setOnClickListener {
+            selectMethod(binding.bankTransferRadio)
+        }
+
+        binding.cardStripe.setOnClickListener {
+            selectMethod(binding.stripeRadio)
+        }
+
+        // Default selection
+        selectMethod(binding.bankTransferRadio)
+
+        // Confirm button
+        binding.btnProcessPayment.setOnClickListener {
             processPayment()
         }
     }
@@ -70,35 +92,50 @@ class PaymentActivity : AppCompatActivity() {
 
 
     private fun showBankTransferDetails() {
-        bankDetailsSection.visibility = LinearLayout.VISIBLE
-        // You can add specific logic for bank transfer here
+        // Bank Transfer specific UI or logic
+        binding.bankDetailsSection.visibility = View.VISIBLE
+        binding.mpesaDetailsSection.visibility = View.GONE
+        binding.stripeDetailsSection.visibility = View.GONE
     }
 
-    private fun showMPassDetails() {
-        bankDetailsSection.visibility = LinearLayout.GONE
-        // Show M-Pass specific UI or logic
-        Toast.makeText(this, "M-Pass payment selected", Toast.LENGTH_SHORT).show()
+    private fun showMPesaDetails() {
+        // Mpesa specific UI or logic
+        binding.bankDetailsSection.visibility = View.GONE
+        binding.mpesaDetailsSection.visibility = View.VISIBLE
+        binding.stripeDetailsSection.visibility = View.GONE
+        Toast.makeText(this, "M-Pesa payment selected", Toast.LENGTH_SHORT).show()
     }
 
     private fun showStripeDetails() {
-        bankDetailsSection.visibility = LinearLayout.GONE
-        // Show Stripe specific UI or logic
+        // Stripe specific UI or logic
+        binding.bankDetailsSection.visibility = View.GONE
+        binding.mpesaDetailsSection.visibility = View.GONE
+        binding.stripeDetailsSection.visibility = View.VISIBLE
         Toast.makeText(this, "Stripe payment selected", Toast.LENGTH_SHORT).show()
     }
 
+    private fun highlightSelectedCard(selectedCard: MaterialCardView) {
+        // Reset all to grey
+        binding.cardMpesa.strokeColor = getColor(R.color.border_light)
+        binding.cardBankTransfer.strokeColor = getColor(R.color.border_light)
+        binding.cardStripe.strokeColor = getColor(R.color.border_light)
+
+        // Highlight selected card with blue stroke
+        selectedCard.strokeColor = getColor(R.color.primary_blue)
+    }
+
     private fun processPayment() {
-        val selectedMethod = when (paymentMethodGroup.checkedRadioButtonId) {
-            R.id.mpassRadio -> "M-Pass"
-            R.id.bankTransferRadio -> "Bank Transfer"
-            R.id.stripeRadio -> "Stripe"
+        val selectedMethod = when {
+            binding.mpesaRadio.isChecked -> "M-Pesa"
+            binding.bankTransferRadio.isChecked -> "Bank Transfer"
+            binding.stripeRadio.isChecked -> "Stripe"
             else -> "Unknown"
         }
 
-        // Here you would implement the actual payment processing logic
-        // For now, just show a confirmation message
+        // Currently showing a confirmation message without full payment logic
         val message = when (selectedMethod) {
             "Bank Transfer" -> "Please transfer the amount to the provided bank details. We'll confirm your payment once received."
-            "M-Pass" -> "Redirecting to M-Pass payment gateway..."
+            "M-Pesa" -> "Redirecting to M-Pesa payment gateway..."
             "Stripe" -> "Redirecting to Stripe payment gateway..."
             else -> "Processing payment..."
         }
@@ -108,7 +145,15 @@ class PaymentActivity : AppCompatActivity() {
             .setMessage("$message\n\nSelected method: $selectedMethod")
             .setPositiveButton("OK") { dialog, _ ->
                 dialog.dismiss()
-                // Navigate to success screen or previous activity
+
+                // Go back to MainActivity and open BuyerDashboardFragment
+                val intent = Intent(this, BuyerDashboardActivity::class.java).apply {
+                    // Clear intermediate activities (DeliveryDetails / PickupDetails / Payment)
+                    flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
+                    putExtra("navigate_to", "buyer_dashboard")
+                }
+                startActivity(intent)
+                finish() // close PaymentActivity
             }
             .setNegativeButton("Cancel") { dialog, _ ->
                 dialog.dismiss()

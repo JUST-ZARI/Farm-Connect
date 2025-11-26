@@ -64,7 +64,7 @@ class DeliveryDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
                     name = product.name,
                     price = product.price,
                     unit = product.unit,
-                    quantity = product.quantity.toIntOrNull() ?: 1
+                    quantity = product.quantity
                 )
             }
             subtotal = intent.getDoubleExtra("SUBTOTAL", cartItems.sumOf { it.getTotalPrice() })
@@ -98,11 +98,10 @@ class DeliveryDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
     private fun setupClickListeners() {
-        // Current Location FAB
-        /*val fabLocation = binding.root.findViewById<MaterialButton>(R.id.fabLocation)
-        fabLocation?.setOnClickListener {
-            centerMapOnCurrentLocation()
-        }*/
+        // Back button
+        binding.btnBack.setOnClickListener {
+            onBackPressedDispatcher.onBackPressed()    // or just: finish()
+        }
 
         // Proceed to Payment Button
         binding.btnProceedToPayment.setOnClickListener {

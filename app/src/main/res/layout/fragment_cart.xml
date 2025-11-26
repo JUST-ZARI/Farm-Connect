@@ -65,7 +65,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
-                android:text="Delivery Options"
+                android:text="Choose a Delivery Option:"
                 android:textColor="#000000"
                 android:textSize="18sp"
                 android:textStyle="bold" />

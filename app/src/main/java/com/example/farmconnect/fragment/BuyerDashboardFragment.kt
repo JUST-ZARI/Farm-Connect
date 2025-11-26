@@ -10,6 +10,8 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.farmconnect.adapter.ProductAdapter
 import com.example.farmconnect.databinding.FragmentBuyerDashboardBinding
+import com.example.farmconnect.manager.CartManager
+import com.example.farmconnect.model.CartItem
 import com.example.farmconnect.model.Product
 
 class BuyerDashboardFragment : Fragment() {
@@ -17,7 +19,6 @@ class BuyerDashboardFragment : Fragment() {
     private var _binding: FragmentBuyerDashboardBinding? = null
     private val binding get() = _binding!!
     private lateinit var productAdapter: ProductAdapter
-    private val cartItems = mutableListOf<Product>() // Track cart items
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -35,9 +36,16 @@ class BuyerDashboardFragment : Fragment() {
     }
 
     private fun setupRecyclerView() {
-        productAdapter = ProductAdapter(emptyList()) { product ->
-            addToCart(product)
-        }
+        productAdapter = ProductAdapter(
+            products = emptyList(),
+            onEditClick = {},  /* buyers don't edit products */
+            onDeleteClick = {},  /* buyers don't delete products */
+            onAddToCartClick = { product ->
+                addToCart(product)
+            },
+            showAddToCart = true,
+            isBuyer = true
+        )
 
         binding.rvProducts.apply {
             layoutManager = GridLayoutManager(requireContext(), 2)
@@ -60,7 +68,7 @@ class BuyerDashboardFragment : Fragment() {
                             name = doc.getString("name") ?: "",
                             description = doc.getString("description") ?: "",
                             price = doc.getDouble("price") ?: 0.0,
-                            quantity = doc.getString("quantity") ?: "0",
+                            quantity = (doc.getLong("quantity") ?: 0L).toInt(),
                             unit = doc.getString("unit") ?: "",
                             imageUrl = doc.getString("imageUrl"),
                             category = doc.getString("category") ?: "",
@@ -90,31 +98,35 @@ class BuyerDashboardFragment : Fragment() {
     }
 
     private fun addToCart(product: Product) {
-        // Add product to cart
-        cartItems.add(product)
+        val cartItem = CartItem(
+            id = product.id,
+            productId = product.id,
+            name = product.name,
+            price = product.price,
+            unit = product.unit,
+            quantity = 1,
+            imageUrl = product.imageUrl,
+            farmerId = product.owner
+        )
+
+        CartManager.addToCart(cartItem)
+
         Toast.makeText(requireContext(), "Added ${product.name} to cart!", Toast.LENGTH_SHORT).show()
 
-        // Ask user if they want to go to cart
         android.app.AlertDialog.Builder(requireContext())
             .setTitle("Added to Cart")
             .setMessage("${product.name} has been added to your cart. Do you want to view your cart?")
-            .setPositiveButton("View Cart") { dialog, which ->
+            .setPositiveButton("View Cart") { _, _ ->
                 navigateToCart()
             }
-            .setNegativeButton("Continue Shopping") { dialog, which ->
-                // User stays on the current page
-            }
+            .setNegativeButton("Continue Shopping", null)
             .show()
     }
 
+
     private fun navigateToCart() {
-        // Navigate to cart fragment using Navigation Component
-        val bundle = Bundle().apply {
-            putParcelableArrayList("CART_ITEMS", ArrayList(cartItems))
-        }
         findNavController().navigate(
             com.example.farmconnect.R.id.action_buyerDashboardFragment_to_cartFragment,
-            bundle
         )
     }
 
@@ -125,7 +137,7 @@ class BuyerDashboardFragment : Fragment() {
                 name = "Fresh Tomatoes",
                 description = "Juicy, farm-fresh tomatoes",
                 price = 2.50,
-                quantity = "10",
+                quantity = 10,
                 unit = "kg",
                 imageUrl = null,
                 category = "Vegetables",
@@ -136,7 +148,7 @@ class BuyerDashboardFragment : Fragment() {
                 name = "Organic Carrots",
                 description = "Sweet organic carrots",
                 price = 1.80,
-                quantity = "8",
+                quantity = 8,
                 unit = "kg",
                 imageUrl = null,
                 category = "Vegetables",
@@ -147,7 +159,7 @@ class BuyerDashboardFragment : Fragment() {
                 name = "Sweet Potatoes",
                 description = "Sweet, starchy potatoes perfect for roasting",
                 price = 3.00,
-                quantity = "15",
+                quantity = 15,
                 unit = "kg",
                 imageUrl = null,
                 category = "Root Crops",
@@ -158,7 +170,7 @@ class BuyerDashboardFragment : Fragment() {
                 name = "Green Bell Peppers",
                 description = "Crisp and fresh bell peppers",
                 price = 4.20,
-                quantity = "12",
+                quantity = 12,
                 unit = "kg",
                 imageUrl = null,
                 category = "Vegetables",
@@ -169,7 +181,7 @@ class BuyerDashboardFragment : Fragment() {
                 name = "Farm Fresh Eggs",
                 description = "Free-range farm eggs",
                 price = 5.00,
-                quantity = "30",
+                quantity = 30,
                 unit = "dozen",
                 imageUrl = null,
                 category = "Poultry",
@@ -180,7 +192,7 @@ class BuyerDashboardFragment : Fragment() {
                 name = "Crisp Lettuce",
                 description = "Fresh and crispy lettuce",
                 price = 1.50,
-                quantity = "20",
+                quantity = 20,
                 unit = "head",
                 imageUrl = null,
                 category = "Vegetables",

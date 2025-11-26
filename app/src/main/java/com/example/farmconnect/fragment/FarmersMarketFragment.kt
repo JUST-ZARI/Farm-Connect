@@ -31,6 +31,12 @@ import org.json.JSONObject
 import java.io.IOException
 import java.util.UUID
 import java.util.concurrent.Executors
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.farmconnect.adapter.ProductAdapter
+import com.example.farmconnect.model.Product
+import com.google.firebase.firestore.Query
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import android.util.Log
 
 class FarmersMarketFragment : Fragment() {
 
@@ -38,6 +44,9 @@ class FarmersMarketFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var auth: FirebaseAuth
     private lateinit var firestore: FirebaseFirestore
+    private lateinit var productAdapter: ProductAdapter
+    private val productsList = mutableListOf<Product>()
+    private var currentProductId: String? = null
     
     private var selectedImageUri: Uri? = null
 
@@ -69,8 +78,25 @@ class FarmersMarketFragment : Fragment() {
         firestore = FirebaseFirestore.getInstance()
 
         setupClickListeners()
+        setupRecyclerView()
         loadMarketData()
         setupToolbar()
+    }
+
+    private fun setupRecyclerView() {
+        productAdapter = ProductAdapter(
+            products = productsList,
+            onEditClick = { product -> populateProductForm(product) },
+            onDeleteClick = { product -> showDeleteConfirmationDialog(product) },
+            onAddToCartClick = null,
+            showAddToCart = false,
+            isBuyer = false
+        )
+        
+        binding.rvProducts.apply {
+            layoutManager = LinearLayoutManager(requireContext())
+            adapter = productAdapter
+        }
     }
 
     private fun setupClickListeners() {
@@ -109,6 +135,58 @@ class FarmersMarketFragment : Fragment() {
             // Navigate back when back button is clicked
             findNavController().navigateUp()
         }
+    }
+
+    private fun populateProductForm(product: Product) {
+        binding.scrollView.smoothScrollTo(0, 0)
+        
+        // Set form fields with product data
+        binding.etName.setText(product.name)
+        binding.etUnit.setText(product.unit)
+        binding.etQuantity.setText(product.quantity.toString())
+        binding.etPrice.setText("KES ${product.price}")
+        binding.etDescription.setText(product.description)
+        
+        // Load image if exists
+        product.imageUrl?.let { url ->
+            Glide.with(this)
+                .load(url)
+                .centerCrop()
+                .placeholder(R.drawable.ic_image_placeholder)
+                .into(binding.ivProductImage)
+            binding.ivProductImage.visibility = View.VISIBLE
+            binding.btnRemoveImage.visibility = View.VISIBLE
+            binding.btnUploadPhotos.visibility = View.GONE
+        } ?: run {
+            removeSelectedImage()
+        }
+        
+        binding.btnSave.text = "Update Product"
+        currentProductId = product.id
+    }
+
+    private fun showDeleteConfirmationDialog(product: Product) {
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle("Delete Product")
+            .setMessage("Are you sure you want to delete ${product.name}?")
+            .setPositiveButton("Delete") { _, _ ->
+                deleteProduct(product.id)
+            }
+            .setNegativeButton("Cancel", null)
+            .show()
+    }
+
+    private fun deleteProduct(productId: String) {
+        firestore.collection("products")
+            .document(productId)
+            .delete()
+            .addOnSuccessListener {
+                Toast.makeText(requireContext(), "Product deleted successfully", Toast.LENGTH_SHORT).show()
+                loadMarketData()
+            }
+            .addOnFailureListener { e ->
+                Toast.makeText(requireContext(), "Failed to delete product: ${e.message}", Toast.LENGTH_SHORT).show()
+            }
     }
 
     private fun validateInputs(): Boolean {
@@ -182,39 +260,31 @@ class FarmersMarketFragment : Fragment() {
     }
 
     private fun saveProduct() {
-        val user = auth.currentUser
-        if (user == null) {
+        if (!validateInputs()) return
+
+        val user = auth.currentUser ?: run {
             Toast.makeText(requireContext(), "Please login to add products", Toast.LENGTH_SHORT).show()
             return
         }
 
-        // Show loading
         binding.btnSave.isEnabled = false
         binding.btnSave.text = "Saving..."
 
-        // Get user's name from Firestore
+        val name = binding.etName.text.toString().trim()
+        val unit = binding.etUnit.text.toString().trim()
+        val quantity = binding.etQuantity.text.toString().trim().toIntOrNull() ?: 0
+        val priceText = binding.etPrice.text.toString().trim()
+        val description = binding.etDescription.text.toString().trim()
+        val price = priceText.replace(Regex("[^0-9.]"), "").toDoubleOrNull() ?: 0.0
+        val category = getCategoryForProduct(name)
+
         firestore.collection("users")
             .document(user.uid)
             .get()
             .addOnSuccessListener { document ->
                 val farmerName = document.getString("fullName") ?: "Unknown Farmer"
                 
-                // Get form values
-                val name = binding.etName.text.toString().trim()
-                val unit = binding.etUnit.text.toString().trim()
-                val quantity = binding.etQuantity.text.toString().trim()
-                val priceText = binding.etPrice.text.toString().trim()
-                val description = binding.etDescription.text.toString().trim()
-                
-                // Extract price value (remove "KES" and other text)
-                val price = priceText.replace(Regex("[^0-9.]"), "").toDoubleOrNull() ?: 0.0
-
-                
-                // Determine category (simple mapping based on name)
-                val category = getCategoryForProduct(name)
-
-                // Function to save product data with image URL
-                fun saveProductData(imageUrl: String? = null) {
+                fun saveOrUpdateProduct(imageUrl: String? = null) {
                     val productData = hashMapOf(
                         "name" to name,
                         "description" to description,
@@ -224,40 +294,63 @@ class FarmersMarketFragment : Fragment() {
                         "category" to category,
                         "owner" to farmerName,
                         "farmerId" to user.uid,
-                        "createdAt" to com.google.firebase.Timestamp.now(),
                         "imageUrl" to imageUrl,
-                        "useGlobalImages" to binding.cbGlobalImages.isChecked
+                        "useGlobalImages" to binding.cbGlobalImages.isChecked,
+                        "updatedAt" to com.google.firebase.Timestamp.now()
                     )
 
-                    // Add product to Firestore
-                    firestore.collection("products")
-                        .add(productData)
-                        .addOnSuccessListener { documentReference ->
+                    val productRef = if (currentProductId != null) {
+                        firestore.collection("products").document(currentProductId!!)
+                    } else {
+                        productData["createdAt"] = com.google.firebase.Timestamp.now()
+                        firestore.collection("products").document()
+                    }
+
+                    productRef.set(productData)
+                        .addOnSuccessListener {
                             binding.btnSave.isEnabled = true
                             binding.btnSave.text = "Save Product"
-                            Toast.makeText(requireContext(), "Product added successfully!", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(
+                                requireContext(), 
+                                if (currentProductId != null) "Product updated successfully!" else "Product added successfully!",
+                                Toast.LENGTH_SHORT
+                            ).show()
                             clearForm()
-                            loadMarketData() // Reload products list
                         }
                         .addOnFailureListener { e ->
                             binding.btnSave.isEnabled = true
                             binding.btnSave.text = "Save Product"
-                            Toast.makeText(requireContext(), "Failed to add product: ${e.message}", Toast.LENGTH_LONG).show()
+                            Toast.makeText(
+                                requireContext(), 
+                                "Failed to save product: ${e.message}", 
+                                Toast.LENGTH_LONG
+                            ).show()
                         }
                 }
 
-                // If an image is selected, upload it first
                 if (selectedImageUri != null) {
                     uploadImageToCloudinary(selectedImageUri!!) { imageUrl ->
                         if (imageUrl != null) {
-                            saveProductData(imageUrl)
+                            saveOrUpdateProduct(imageUrl)
                         } else {
                             binding.btnSave.isEnabled = true
                             binding.btnSave.text = "Save Product"
                         }
                     }
                 } else {
-                    saveProductData()
+                    if (currentProductId != null) {
+                        firestore.collection("products").document(currentProductId!!)
+                            .get()
+                            .addOnSuccessListener { doc ->
+                                val existingImageUrl = doc.getString("imageUrl")
+                                saveOrUpdateProduct(existingImageUrl)
+                            }
+                            .addOnFailureListener {
+                                saveOrUpdateProduct(null)
+                            }
+                    } else {
+                        saveOrUpdateProduct()
+                    }
                 }
             }
             .addOnFailureListener {
@@ -334,32 +427,6 @@ class FarmersMarketFragment : Fragment() {
         }
     }
 
-    private fun getEmojiForProduct(name: String): String {
-        val lowerName = name.lowercase()
-        return when {
-            lowerName.contains("tomato") -> "🍅"
-            lowerName.contains("carrot") -> "🥕"
-            lowerName.contains("potato") -> "🥔"
-            lowerName.contains("corn") -> "🌽"
-            lowerName.contains("lettuce") -> "🥬"
-            lowerName.contains("cucumber") -> "🥒"
-            lowerName.contains("pepper") -> "🫑"
-            lowerName.contains("eggplant") -> "🍆"
-            lowerName.contains("broccoli") -> "🥦"
-            lowerName.contains("onion") -> "🧅"
-            lowerName.contains("apple") -> "🍎"
-            lowerName.contains("banana") -> "🍌"
-            lowerName.contains("orange") -> "🍊"
-            lowerName.contains("grape") -> "🍇"
-            lowerName.contains("strawberry") -> "🍓"
-            lowerName.contains("egg") -> "🥚"
-            lowerName.contains("milk") -> "🥛"
-            lowerName.contains("cheese") -> "🧀"
-            lowerName.contains("honey") -> "🍯"
-            else -> "🌾" // Default emoji
-        }
-    }
-
     private fun getCategoryForProduct(name: String): String {
         val lowerName = name.lowercase()
         return when {
@@ -378,6 +445,7 @@ class FarmersMarketFragment : Fragment() {
     }
 
     private fun clearForm() {
+        currentProductId = null
         binding.etName.text?.clear()
         binding.etUnit.text?.clear()
         binding.etQuantity.text?.clear()
@@ -385,6 +453,7 @@ class FarmersMarketFragment : Fragment() {
         binding.etDescription.text?.clear()
         binding.cbGlobalImages.isChecked = false
         removeSelectedImage()
+        binding.btnSave.text = "Save Product"
     }
     
     private fun removeSelectedImage() {
@@ -455,22 +524,24 @@ class FarmersMarketFragment : Fragment() {
     }
 
     private fun loadMarketData() {
-        // Load farmer's products from Firestore
-        val user = auth.currentUser
-        if (user == null) return
+        val user = auth.currentUser ?: return
 
-        // TODO: Load and display farmer's products in the "My Products in Market" section
-        // You can use a RecyclerView or update the static product cards
         firestore.collection("products")
             .whereEqualTo("farmerId", user.uid)
-            .get()
-            .addOnSuccessListener { documents ->
-                // Update UI with farmer's products
-                // For now, the layout has static product cards
-                // You might want to replace them with a RecyclerView
-            }
-            .addOnFailureListener { e ->
-                android.util.Log.e("FarmersMarket", "Error loading products: ${e.message}")
+            .orderBy("createdAt", Query.Direction.DESCENDING)
+            .addSnapshotListener { snapshot, e ->
+                if (e != null) {
+                    Log.w("FarmersMarket", "Listen failed.", e)
+                    return@addSnapshotListener
+                }
+
+                val products = mutableListOf<Product>()
+                snapshot?.documents?.forEach { document ->
+                    val product = document.toObject(Product::class.java)?.copy(id = document.id)
+                    product?.let { products.add(it) }
+                }
+
+                productAdapter.updateProducts(products)
             }
     }
 
