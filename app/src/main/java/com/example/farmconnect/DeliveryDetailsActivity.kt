@@ -92,7 +92,7 @@ class DeliveryDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
         binding.tvOrderNumber.text = "FC-4321"
         binding.tvFarmerName.text = "Kamau Karluki"
         binding.tvBuyerName.text = "Achieng Markets"
-        binding.tvETA.text = "45 min"
+        binding.tvEta.text = "45 min"
 
         // Set delivery items (already in XML, but you can make them dynamic)
     }

@@ -40,7 +40,7 @@ class PickupDetailsActivity : AppCompatActivity() {
 
         // Set farm location
         binding.tvFarmAddress.text = pickup.farmAddress
-        binding.tvLocationNote.text = pickup.locationNote
+
 
         // Calculate and set totals
         val totalWeight = pickup.items.sumOf { it.weight }

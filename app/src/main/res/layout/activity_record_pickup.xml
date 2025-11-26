@@ -1,274 +1,215 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_blue"
-    android:padding="16dp"
-    android:fitsSystemWindows="true">
+    android:background="#FFFFFF">
 
-    <LinearLayout
+    <!-- Top App Bar -->
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/topAppBar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="?attr/actionBarSize"
+        android:background="@android:color/white"
+        app:navigationIcon="@drawable/ic_arrow_back"
+        app:title="Record Pickup"
+        app:titleCentered="true"
+        app:titleTextColor="@android:color/black" />
 
-        <!-- Header Section -->
-        <TextView
+    <!-- Content -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="?attr/actionBarSize"
+        android:padding="16dp"
+        android:background="@color/white">
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Record Pickup"
-            android:textColor="@color/text_dark"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            android:textAlignment="center"
-            android:layout_marginBottom="32dp" />
+            android:orientation="vertical"
+            android:background="@color/white">
 
-        <!-- Farmer Name Input -->
-        <com.google.android.material.textfield.TextInputLayout
-            style="@style/FarmConnectTextInputLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
-            app:hintEnabled="true"
-            app:hintAnimationEnabled="true">
+            <!-- Farmer Name -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Farmer Name"
+                android:textColor="#222222"
+                android:textSize="14sp"
+                android:layout_marginBottom="4dp" />
 
-            <com.google.android.material.textfield.TextInputEditText
+            <EditText
                 android:id="@+id/etFarmerName"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Enter farmer's name"
+                android:layout_height="48dp"
+                android:background="@drawable/bg_input_field"
+                android:hint="Enter farmer’s name"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
+                android:textSize="14sp"
                 android:inputType="textPersonName"
-                android:maxLines="1"
-                android:textSize="16sp" />
+                android:layout_marginBottom="16dp" />
 
-        </com.google.android.material.textfield.TextInputLayout>
+            <!-- Crop -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Crop"
+                android:textColor="#222222"
+                android:textSize="14sp"
+                android:layout_marginBottom="4dp" />
 
-        <!-- Crop Input -->
-        <com.google.android.material.textfield.TextInputLayout
-            style="@style/FarmConnectTextInputLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
-            app:hintEnabled="true"
-            app:hintAnimationEnabled="true">
-
-            <com.google.android.material.textfield.TextInputEditText
+            <EditText
                 android:id="@+id/etCrop"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="48dp"
+                android:background="@drawable/bg_input_field"
                 android:hint="e.g., Tomatoes, Maize"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
+                android:textSize="14sp"
                 android:inputType="text"
-                android:maxLines="1"
-                android:textSize="16sp" />
+                android:layout_marginBottom="16dp" />
 
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <!-- Weight Input -->
-        <com.google.android.material.textfield.TextInputLayout
-            style="@style/FarmConnectTextInputLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
-            app:hintEnabled="true"
-            app:hintAnimationEnabled="true">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/etWeight"
+            <!-- Weight -->
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:text="Weight (kg)"
+                android:textColor="#222222"
+                android:textSize="14sp"
+                android:layout_marginBottom="4dp" />
+
+            <EditText
+                android:id="@+id/etWeight"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:background="@drawable/bg_input_field"
                 android:hint="Enter weight in kg"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
+                android:textSize="14sp"
                 android:inputType="numberDecimal"
-                android:maxLines="1"
-                android:textSize="16sp" />
+                android:layout_marginBottom="16dp" />
 
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <!-- Condition Section -->
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Condition"
-            android:textColor="@color/text_dark"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:layout_marginBottom="12dp" />
-
-        <RadioGroup
-            android:id="@+id/rgCondition"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="24dp"
-            android:orientation="horizontal">
-
-            <LinearLayout
-                android:layout_width="0dp"
+            <!-- Condition -->
+            <TextView
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:text="Condition"
+                android:textColor="#222222"
+                android:textSize="14sp"
+                android:layout_marginBottom="8dp" />
+
+            <RadioGroup
+                android:id="@+id/rgCondition"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:gravity="center">
+                android:layout_marginBottom="20dp">
 
                 <com.google.android.material.radiobutton.MaterialRadioButton
                     android:id="@+id/rbPerfect"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Perfect"
-                    app:buttonTint="@color/radio_button_tint"
-                    android:textColor="@color/text_dark" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="horizontal"
-                android:gravity="center">
+                    android:textSize="13sp"
+                    android:layout_marginEnd="12dp" />
 
                 <com.google.android.material.radiobutton.MaterialRadioButton
                     android:id="@+id/rbGood"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Good"
-                    app:buttonTint="@color/radio_button_tint"
-                    android:textColor="@color/text_dark" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="horizontal"
-                android:gravity="center">
+                    android:textSize="13sp"
+                    android:layout_marginEnd="12dp" />
 
                 <com.google.android.material.radiobutton.MaterialRadioButton
                     android:id="@+id/rbFair"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Fair"
-                    app:buttonTint="@color/radio_button_tint"
-                    android:textColor="@color/text_dark" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="horizontal"
-                android:gravity="center">
+                    android:textSize="13sp"
+                    android:layout_marginEnd="12dp" />
 
                 <com.google.android.material.radiobutton.MaterialRadioButton
                     android:id="@+id/rbBad"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Bad"
-                    app:buttonTint="@color/radio_button_tint"
-                    android:textColor="@color/text_dark" />
+                    android:textSize="13sp" />
+            </RadioGroup>
 
-            </LinearLayout>
-
-        </RadioGroup>
-
-        <!-- Photo Upload Section -->
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Photo Upload"
-            android:textColor="@color/text_dark"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:layout_marginBottom="12dp" />
-
-        <com.google.android.material.card.MaterialCardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="24dp"
-            app:cardCornerRadius="8dp"
-            app:cardElevation="2dp"
-            app:cardBackgroundColor="@color/card_light_blue">
-
-            <LinearLayout
+            <!-- Photo Upload -->
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="16dp"
-                android:gravity="center_vertical"
-                android:background="?android:attr/selectableItemBackground"
-                android:clickable="true"
-                android:focusable="true">
+                android:text="Photo Upload"
+                android:textColor="#222222"
+                android:textSize="14sp"
+                android:layout_marginBottom="8dp" />
 
-                <com.google.android.material.checkbox.MaterialCheckBox
-                    android:id="@+id/cbUploadPhoto"
+            <LinearLayout
+                android:id="@+id/uploadPhoto"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:background="@drawable/bg_input_field"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:clickable="true"
+                android:focusable="true"
+                android:layout_marginBottom="20dp">
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/ic_add_image"
+                    android:tint="#9E9E9E"
+                    android:layout_marginEnd="8dp" />
+
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Upload Photo"
-                    app:buttonTint="@color/checkbox_tint"
-                    android:textColor="@color/text_dark"
-                    android:layout_marginEnd="12dp"
-                    android:clickable="false" />
-
-                <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:src="@drawable/ic_camera"
-                    app:tint="@color/primary_blue" />
-
+                    android:textColor="#777777"
+                    android:textSize="13sp" />
             </LinearLayout>
 
-        </com.google.android.material.card.MaterialCardView>
+            <!-- Comments -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Comments"
+                android:textColor="#222222"
+                android:textSize="14sp"
+                android:layout_marginBottom="8dp" />
 
-        <!-- Comments Section -->
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Comments"
-            android:textColor="@color/text_dark"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:layout_marginBottom="12dp" />
-
-        <com.google.android.material.textfield.TextInputLayout
-            style="@style/FarmConnectTextInputLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="32dp"
-            app:hintEnabled="true"
-            app:hintAnimationEnabled="true">
-
-            <com.google.android.material.textfield.TextInputEditText
+            <EditText
                 android:id="@+id/etComments"
                 android:layout_width="match_parent"
                 android:layout_height="120dp"
+                android:background="@drawable/bg_input_field"
+                android:gravity="top|start"
                 android:hint="Add any additional comments..."
+                android:padding="12dp"
+                android:textSize="14sp"
                 android:inputType="textMultiLine"
-                android:gravity="top"
-                android:padding="16dp"
-                android:textSize="16sp" />
+                android:layout_marginBottom="24dp" />
 
-        </com.google.android.material.textfield.TextInputLayout>
+            <!-- Record Pickup Button -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnRecordPickup"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Record Pickup"
+                android:textAllCaps="false"
+                android:textSize="15sp"
+                android:textColor="@color/white"
+                app:cornerRadius="10dp"
+                app:backgroundTint="@color/primary_blue" />
+        </LinearLayout>
 
-        <!-- Record Pickup Button -->
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnRecordPickup"
-            style="@style/FarmConnectButton"
-            android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:text="Record Pickup"
-            android:layout_marginBottom="24dp"
-            android:elevation="4dp" />
+    </ScrollView>
 
-        <!-- Bottom Navigation -->
-        <com.google.android.material.bottomnavigation.BottomNavigationView
-            android:id="@+id/bottomNavigation"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white"
-            app:menu="@menu/bottom_navigation_menu_driver"
-            app:itemIconTint="@color/bottom_nav_icon_selector"
-            app:itemTextColor="@color/bottom_nav_icon_selector"
-            app:elevation="8dp" />
-
-    </LinearLayout>
-
-</ScrollView>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

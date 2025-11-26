@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.farmconnect.R
 import com.example.farmconnect.adapter.PickupAdapter
@@ -33,13 +34,15 @@ class DriverDashboardFragment : Fragment() {
         setupDashboard()
         setupPickupsRecyclerView()
         setupClickListeners()
+        
+        // Set up click listener for View Assigned Pickups button
+        binding.btnViewAssignedPickups.setOnClickListener {
+            // Navigate to AssignedPickupsFragment
+            findNavController().navigate(R.id.action_driverDashboardFragment_to_assignedPickupsFragment)
+        }
     }
 
     private fun setupDashboard() {
-        // Set progress for monthly distance
-        val progressDistance = view?.findViewById<LinearProgressIndicator>(R.id.progressDistance)
-        progressDistance?.progress = 65 // 650km out of 1000km (65%)
-
         // You can load real data here from your backend
         loadDriverData()
     }
@@ -63,10 +66,7 @@ class DriverDashboardFragment : Fragment() {
             }
         )
 
-        binding.rvPickups.apply {
-            layoutManager = LinearLayoutManager(requireContext())
-            adapter = pickupAdapter
-        }
+
     }
 
     private fun loadDriverData() {
@@ -78,26 +78,7 @@ class DriverDashboardFragment : Fragment() {
     }
 
     private fun setupClickListeners() {
-        // Notification icon click
-        binding.imageNotifications.setOnClickListener {
-            showNotifications()
-        }
 
-        // Pricing tier clicks
-        setupPricingTierClicks()
-    }
-
-    private fun setupPricingTierClicks() {
-        // You can add click listeners for each pricing tier
-        binding.cardTierA.setOnClickListener {
-            showTierDetails("A", "Standard Tier - Basic delivery services")
-        }
-        binding.cardTierB.setOnClickListener {
-            showTierDetails("B", "Premium Tier - Priority delivery with tracking")
-        }
-        binding.cardTierC.setOnClickListener {
-            showTierDetails("C", "Economy Tier - Budget-friendly delivery options")
-        }
     }
 
     // Pickup-related functions
@@ -167,12 +148,6 @@ class DriverDashboardFragment : Fragment() {
                 "scheduled"
             )
         )
-    }
-
-    private fun showNotifications() {
-        Toast.makeText(requireContext(), "Notifications", Toast.LENGTH_SHORT).show()
-        // Navigate to notifications activity
-        // findNavController().navigate(R.id.action_driverDashboardFragment_to_notificationsFragment)
     }
 
     private fun showTierDetails(tier: String, details: String) {

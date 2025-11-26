@@ -11,15 +11,28 @@
         android:label="Driver Dashboard"
         tools:layout="@layout/fragment_driver_dashboard">
         <action
-            android:id="@+id/action_driverDashboardFragment_to_jobDetailsFragment"
-            app:destination="@id/navigation_jobs" />
+            android:id="@+id/action_driverDashboardFragment_to_assignedPickupsFragment"
+            app:destination="@id/assignedPickupsFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/assignedPickupsFragment"
+        android:name="com.example.farmconnect.fragment.AssignedPickupsFragment"
+        android:label="Assigned Pickups"
+        tools:layout="@layout/fragment_assigned_pickups">
+        <action
+            android:id="@+id/action_assignedPickupsFragment_to_jobDetailsActivity"
+            app:destination="@id/jobDetailsActivity" />
+        <action
+            android:id="@+id/action_assignedPickupsFragment_to_recordPickupActivity"
+            app:destination="@id/recordPickupActivity" />
     </fragment>
 
     <fragment
         android:id="@+id/navigation_jobs"
-        android:name="com.example.farmconnect.fragment.JobDetailsFragment"
-        android:label="Job Details"
-        tools:layout="@layout/fragment_job_details" />
+        android:name="com.example.farmconnect.fragment.AssignedPickupsFragment"
+        android:label="Assigned Pickups"
+        tools:layout="@layout/fragment_assigned_pickups" />
 
     <fragment
         android:id="@+id/navigation_profile"
@@ -27,5 +40,16 @@
         android:label="Profile"
         tools:layout="@layout/fragment_profile" />
 
-</navigation>
+    <activity
+        android:id="@+id/jobDetailsActivity"
+        android:name="com.example.farmconnect.JobDetailsActivity"
+        android:label="Job Details"
+        tools:layout="@layout/activity_job_details" />
 
+    <activity
+        android:id="@+id/recordPickupActivity"
+        android:name="com.example.farmconnect.RecordPickupActivity"
+        android:label="Record Pickup"
+        tools:layout="@layout/activity_record_pickup" />
+
+</navigation>

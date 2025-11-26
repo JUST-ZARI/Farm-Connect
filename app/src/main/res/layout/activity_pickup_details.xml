@@ -4,94 +4,138 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background_blue"
-    android:padding="16dp"
     android:fitsSystemWindows="true">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp"
+        android:paddingTop="5dp"
+        android:paddingBottom="10dp"
+        android:background="@color/white">
 
-        <!-- Header Section -->
+        <!-- HEADER -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:paddingTop="16dp"
+            android:paddingBottom="8dp"
+            android:gravity="center_vertical">
+
+            <ImageButton
+                android:id="@+id/btnBack"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:background="@android:color/transparent"
+                android:src="@drawable/ic_arrow_back"
+                android:contentDescription="@string/previous" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:text="Pickup Details"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="@color/text_dark" />
+        </LinearLayout>
+
+        <!-- DIVIDER -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/divider_gray"
+            android:layout_marginBottom="12dp" />
+
+        <!-- ===== FARMER INFO ===== -->
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Pickup Details"
-            android:textColor="@color/text_dark"
-            android:textSize="24sp"
+            android:text="Farmer Information"
+            android:textSize="14sp"
             android:textStyle="bold"
+            android:textColor="@color/text_dark"
             android:layout_marginBottom="8dp" />
 
-        <!-- Farmer Information Section -->
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
-            app:cardCornerRadius="12dp"
-            app:cardElevation="2dp"
-            app:cardBackgroundColor="@color/section_background">
+            app:cardCornerRadius="18dp"
+            app:cardUseCompatPadding="true"
+            app:cardElevation="2dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="20dp">
+                android:padding="16dp"
+                android:background="@color/white">
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Farmer Information"
-                    android:textColor="@color/text_dark"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    android:layout_marginBottom="12dp" />
-
+                <!-- ===== ROW 1: Person Icon + Name ===== -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:layout_marginBottom="8dp">
+                    android:gravity="center_vertical">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="•"
-                        android:textColor="@color/primary_blue"
-                        android:textSize="16sp"
-                        android:layout_marginEnd="8dp" />
+                    <ImageView
+                        android:layout_width="22dp"
+                        android:layout_height="22dp"
+                        android:layout_marginEnd="12dp"
+                        android:src="@drawable/ic_person"
+                        app:tint="@color/text_light" />
 
                     <TextView
                         android:id="@+id/tvFarmerName"
-                        android:layout_width="0dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
                         android:text="Mwangi Kimani"
                         android:textColor="@color/text_dark"
-                        android:textSize="16sp" />
-
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
                 </LinearLayout>
 
+                <!-- SPACE BETWEEN ROWS -->
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="8dp" />
+
+                <!-- ===== ROW 2: Phone Icon + Number (left) AND Call Button (right) ===== -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="•"
-                        android:textColor="@color/primary_blue"
-                        android:textSize="16sp"
-                        android:layout_marginEnd="8dp" />
-
-                    <TextView
-                        android:id="@+id/tvFarmerPhone"
+                    <!-- Phone icon + number -->
+                    <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="+254 712 345678"
-                        android:textColor="@color/text_dark"
-                        android:textSize="16sp" />
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical">
+
+                        <ImageView
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
+                            android:layout_marginEnd="10dp"
+                            android:src="@drawable/ic_call"
+                            app:tint="@color/text_light" />
+
+                        <TextView
+                            android:id="@+id/tvFarmerPhone"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="+254 712 345678"
+                            android:textColor="@color/text_dark"
+                            android:textSize="14sp" />
+                    </LinearLayout>
 
                 </LinearLayout>
 
@@ -99,216 +143,236 @@
 
         </com.google.android.material.card.MaterialCardView>
 
-        <!-- Farm Location Section -->
+        <!-- ===== FARM LOCATION ===== -->
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Farm Location"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:textColor="@color/text_dark"
+            android:layout_marginBottom="8dp" />
+
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
-            app:cardCornerRadius="12dp"
-            app:cardElevation="2dp"
-            app:cardBackgroundColor="@color/section_background">
+            app:cardCornerRadius="18dp"
+            app:cardUseCompatPadding="true"
+            app:cardElevation="2dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="20dp">
+                android:padding="16dp"
+                android:background="@color/white">
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Farm Location"
-                    android:textColor="@color/text_dark"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    android:layout_marginBottom="12dp" />
-
+                <!-- address + share button -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:layout_marginBottom="8dp">
+                    android:gravity="center_vertical"
+                    android:layout_marginBottom="12dp">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="•"
-                        android:textColor="@color/primary_blue"
-                        android:textSize="16sp"
-                        android:layout_marginEnd="8dp" />
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_marginEnd="8dp"
+                        android:src="@drawable/ic_location"
+                        app:tint="@color/text_light" />
 
                     <TextView
                         android:id="@+id/tvFarmAddress"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Y23 Farm Road, Rural Town"
+                        android:text="123 Farm Road, Rural Town"
                         android:textColor="@color/text_dark"
-                        android:textSize="16sp" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                        android:textSize="14sp" />
 
                     <TextView
+                        android:id="@+id/btnShareToDriver"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="•"
+                        android:minHeight="42dp"
+                        android:gravity="center"
+                        android:paddingHorizontal="12dp"
+                        android:paddingVertical="6dp"
+                        android:background="@drawable/bg_share_button"
+                        android:text="Share to Driver"
+                        android:textSize="12sp"
                         android:textColor="@color/primary_blue"
-                        android:textSize="16sp"
-                        android:layout_marginEnd="8dp" />
-
-                    <TextView
-                        android:id="@+id/tvLocationNote"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Shave to Power"
-                        android:textColor="@color/text_light"
-                        android:textSize="14sp"
-                        android:fontStyle="italic" />
-
+                        android:textStyle="bold" />
                 </LinearLayout>
 
-            </LinearLayout>
+                <!-- map -->
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="170dp"
+                    android:background="@drawable/bg_map_rounded">
 
+                    <!-- replace with MapView in real app -->
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/ic_map_placeholder"
+                        android:scaleType="centerCrop" />
+                </FrameLayout>
+            </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
-        <!-- Order Details Section -->
+        <!-- ===== ORDER DETAILS ===== -->
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Order Details"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:textColor="@color/text_dark"
+            android:layout_marginBottom="8dp" />
+
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="24dp"
-            app:cardCornerRadius="12dp"
-            app:cardElevation="2dp"
-            app:cardBackgroundColor="@color/white">
+            app:cardCornerRadius="18dp"
+            app:cardUseCompatPadding="true"
+            app:cardElevation="2dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="20dp">
+                android:padding="16dp"
+                android:background="@color/white">
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Order Details"
-                    android:textColor="@color/text_dark"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    android:layout_marginBottom="16dp" />
-
-                <!-- Fresh Tomatoes Row -->
+                <!-- Fresh Tomatoes -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:layout_marginBottom="12dp">
 
-                    <TextView
+                    <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Fresh Tomatoes"
-                        android:textColor="@color/text_dark"
-                        android:textSize="16sp"
-                        android:textStyle="bold" />
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Fresh Tomatoes"
+                            android:textColor="@color/text_dark"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="50 kg • Ksh 30/kg"
+                            android:textColor="@color/text_light"
+                            android:textSize="12sp"
+                            android:layout_marginTop="2dp" />
+                    </LinearLayout>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Ksh 1,500"
-                        android:textColor="@color/price_color"
-                        android:textSize="16sp"
+                        android:textColor="@color/text_dark"
+                        android:textSize="14sp"
                         android:textStyle="bold" />
-
                 </LinearLayout>
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="50 kg - Ksh 30/kg"
-                    android:textColor="@color/text_light"
-                    android:textSize="14sp"
-                    android:layout_marginBottom="16dp" />
-
-                <!-- Organic Lettuce Row -->
+                <!-- Organic Lettuce -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:layout_marginBottom="12dp">
 
-                    <TextView
+                    <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Organic Lettuce"
-                        android:textColor="@color/text_dark"
-                        android:textSize="16sp"
-                        android:textStyle="bold" />
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Organic Lettuce"
+                            android:textColor="@color/text_dark"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="20 kg • Ksh 40/kg"
+                            android:textColor="@color/text_light"
+                            android:textSize="12sp"
+                            android:layout_marginTop="2dp" />
+                    </LinearLayout>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Ksh 800"
-                        android:textColor="@color/price_color"
-                        android:textSize="16sp"
+                        android:textColor="@color/text_dark"
+                        android:textSize="14sp"
                         android:textStyle="bold" />
-
                 </LinearLayout>
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="20 kg - Ksh 40/kg"
-                    android:textColor="@color/text_light"
-                    android:textSize="14sp"
-                    android:layout_marginBottom="16dp" />
-
-                <!-- Sweet Potatoes Row -->
+                <!-- Sweet Potatoes -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:layout_marginBottom="12dp">
+                    android:layout_marginBottom="16dp">
 
-                    <TextView
+                    <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Sweet Potatoes"
-                        android:textColor="@color/text_dark"
-                        android:textSize="16sp"
-                        android:textStyle="bold" />
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Sweet Potatoes"
+                            android:textColor="@color/text_dark"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="30 kg • Ksh 40/kg"
+                            android:textColor="@color/text_light"
+                            android:textSize="12sp"
+                            android:layout_marginTop="2dp" />
+                    </LinearLayout>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Ksh 1,200"
-                        android:textColor="@color/price_color"
-                        android:textSize="16sp"
+                        android:textColor="@color/text_dark"
+                        android:textSize="14sp"
                         android:textStyle="bold" />
-
                 </LinearLayout>
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="30 kg - Ksh 40/kg"
-                    android:textColor="@color/text_light"
-                    android:textSize="14sp"
-                    android:layout_marginBottom="20dp" />
-
-                <!-- Divider -->
+                <!-- divider -->
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:background="@color/divider_gray"
-                    android:layout_marginBottom="16dp" />
+                    android:layout_marginBottom="12dp" />
 
                 <!-- Total Weight -->
                 <LinearLayout
@@ -323,7 +387,7 @@
                         android:layout_weight="1"
                         android:text="Total Weight"
                         android:textColor="@color/text_dark"
-                        android:textSize="16sp" />
+                        android:textSize="14sp" />
 
                     <TextView
                         android:id="@+id/tvTotalWeight"
@@ -331,21 +395,15 @@
                         android:layout_height="wrap_content"
                         android:text="100 kg"
                         android:textColor="@color/text_dark"
-                        android:textSize="16sp"
+                        android:textSize="14sp"
                         android:textStyle="bold" />
-
                 </LinearLayout>
 
                 <!-- Total Price -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:background="@color/total_background"
-                    android:padding="12dp"
-                    android:paddingStart="16dp"
-                    android:paddingEnd="16dp"
-                    app:cornerRadius="8dp">
+                    android:orientation="horizontal">
 
                     <TextView
                         android:layout_width="0dp"
@@ -353,7 +411,7 @@
                         android:layout_weight="1"
                         android:text="Total Price"
                         android:textColor="@color/text_dark"
-                        android:textSize="16sp"
+                        android:textSize="14sp"
                         android:textStyle="bold" />
 
                     <TextView
@@ -361,31 +419,27 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Ksh 3,500"
-                        android:textColor="@color/price_color"
-                        android:textSize="18sp"
+                        android:textColor="@color/primary_blue"
+                        android:textSize="15sp"
                         android:textStyle="bold" />
-
                 </LinearLayout>
 
             </LinearLayout>
-
         </com.google.android.material.card.MaterialCardView>
 
-        <!-- Proceed to Payment Button -->
+        <!-- BOTTOM BUTTON -->
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnProceedToPayment"
             android:layout_width="match_parent"
             android:layout_height="56dp"
             android:text="Proceed to Payment"
-            android:textColor="@color/white"
+            android:textAllCaps="false"
+            android:textColor="@android:color/white"
             android:textSize="16sp"
             android:textStyle="bold"
+            android:layout_marginTop="8dp"
             app:backgroundTint="@color/primary_blue"
-            app:cornerRadius="8dp"
-            android:elevation="4dp"
-            app:icon="@drawable/ic_payment"
-            app:iconTint="@color/white" />
+            app:cornerRadius="10dp" />
 
     </LinearLayout>
-
 </ScrollView>

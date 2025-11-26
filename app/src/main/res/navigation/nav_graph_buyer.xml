@@ -19,13 +19,38 @@
         android:id="@+id/navigation_cart"
         android:name="com.example.farmconnect.fragment.CartFragment"
         android:label="Cart"
-        tools:layout="@layout/fragment_cart" />
+        tools:layout="@layout/fragment_cart">
+        <action
+            android:id="@+id/action_cartFragment_to_deliveryDetailsActivity"
+            app:destination="@id/deliveryDetailsActivity" />
+        <action
+            android:id="@+id/action_cartFragment_to_pickupDetailsActivity"
+            app:destination="@id/pickupDetailsActivity" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_profile"
         android:name="com.example.farmconnect.fragment.ProfileFragment"
         android:label="Profile"
         tools:layout="@layout/fragment_profile" />
+
+    <activity
+        android:id="@+id/deliveryDetailsActivity"
+        android:name="com.example.farmconnect.DeliveryDetailsActivity"
+        android:label="Delivery Details"
+        tools:layout="@layout/activity_delivery_details" />
+
+    <activity
+        android:id="@+id/pickupDetailsActivity"
+        android:name="com.example.farmconnect.PickupDetailsActivity"
+        android:label="Pickup Details"
+        tools:layout="@layout/activity_pickup_details" />
+
+    <activity
+        android:id="@+id/paymentActivity"
+        android:name="com.example.farmconnect.PaymentActivity"
+        android:label="Payment"
+        tools:layout="@layout/activity_payment" />
 
 </navigation>
 

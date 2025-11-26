@@ -6,11 +6,15 @@ import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
+import com.example.farmconnect.databinding.ActivityDeliveryDetailsBinding
+import com.example.farmconnect.databinding.ActivityPaymentBinding
+import com.google.android.material.card.MaterialCardView
 
 class PaymentActivity : AppCompatActivity() {
 
+    private lateinit var binding: ActivityPaymentBinding
     private lateinit var paymentMethodGroup: RadioGroup
-    private lateinit var bankDetailsSection: LinearLayout
+    private lateinit var bankDetailsSection: MaterialCardView
     private lateinit var mpassRadio: RadioButton
     private lateinit var bankTransferRadio: RadioButton
     private lateinit var stripeRadio: RadioButton
@@ -18,10 +22,12 @@ class PaymentActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_payment)
+        binding = ActivityPaymentBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         initializeViews()
         setupListeners()
+        setupToolbar()
     }
 
     private fun initializeViews() {
@@ -30,7 +36,7 @@ class PaymentActivity : AppCompatActivity() {
         mpassRadio = findViewById(R.id.mpassRadio)
         bankTransferRadio = findViewById(R.id.bankTransferRadio)
         stripeRadio = findViewById(R.id.stripeRadio)
-        confirmPaymentButton = findViewById(R.id.confirmPaymentButton)
+        confirmPaymentButton = findViewById(R.id.btnProcessPayment)
 
         // Set bank transfer as default selected
         bankTransferRadio.isChecked = true
@@ -55,6 +61,13 @@ class PaymentActivity : AppCompatActivity() {
             processPayment()
         }
     }
+
+    private fun setupToolbar() {
+        binding.topAppBar.setNavigationOnClickListener {
+            onBackPressedDispatcher.onBackPressed()
+        }
+    }
+
 
     private fun showBankTransferDetails() {
         bankDetailsSection.visibility = LinearLayout.VISIBLE
@@ -103,47 +116,4 @@ class PaymentActivity : AppCompatActivity() {
             .show()
     }
 
-    // Method to dynamically add payment items to the table
-    fun addPaymentItem(name: String, cost: String, profile: String) {
-        val paymentTable = findViewById<LinearLayout>(R.id.paymentTable)
-
-        val rowLayout = LinearLayout(this).apply {
-            layoutParams = LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT
-            )
-            orientation = LinearLayout.HORIZONTAL
-            setPadding(48, 32, 48, 32) // Convert dp to pixels
-            background = getDrawable(android.R.attr.selectableItemBackground)
-        }
-
-        val nameTextView = TextView(this).apply {
-            layoutParams = LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f)
-            text = name
-            textSize = 14f
-            setTextColor(getColor(android.R.color.black))
-        }
-
-        val costTextView = TextView(this).apply {
-            layoutParams = LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f)
-            text = cost
-            textSize = 14f
-            setTextColor(getColor(android.R.color.black))
-            gravity = Gravity.CENTER
-        }
-
-        val profileTextView = TextView(this).apply {
-            layoutParams = LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f)
-            text = profile
-            textSize = 14f
-            setTextColor(getColor(android.R.color.black))
-            gravity = Gravity.END
-        }
-
-        rowLayout.addView(nameTextView)
-        rowLayout.addView(costTextView)
-        rowLayout.addView(profileTextView)
-
-        paymentTable.addView(rowLayout)
-    }
 }

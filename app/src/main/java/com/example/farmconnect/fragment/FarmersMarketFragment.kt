@@ -15,6 +15,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.example.farmconnect.R
 import com.example.farmconnect.databinding.FragmentFarmersMarketBinding
@@ -69,6 +70,7 @@ class FarmersMarketFragment : Fragment() {
 
         setupClickListeners()
         loadMarketData()
+        setupToolbar()
     }
 
     private fun setupClickListeners() {
@@ -99,6 +101,13 @@ class FarmersMarketFragment : Fragment() {
             if (isChecked) {
                 Toast.makeText(requireContext(), "Global images enabled", Toast.LENGTH_SHORT).show()
             }
+        }
+    }
+
+    private fun setupToolbar() {
+        binding.topAppBar.setNavigationOnClickListener {
+            // Navigate back when back button is clicked
+            findNavController().navigateUp()
         }
     }
 

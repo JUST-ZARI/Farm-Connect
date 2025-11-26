@@ -59,7 +59,7 @@
             android:name=".RecordPickupActivity"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name=".AssignedPickupsActivity"
+            android:name=".JobDetailsActivity"
             android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".PickupDetailsActivity"
@@ -70,7 +70,7 @@
         <activity
             android:name=".PaymentActivity"
             android:label="Payment"
-            android:theme="@style/Theme.AppCompat.Light.DarkActionBar" />
+            android:theme="@style/Theme.FarmConnect" />
 
         <!-- Google Maps API key and permissions -->
         <meta-data

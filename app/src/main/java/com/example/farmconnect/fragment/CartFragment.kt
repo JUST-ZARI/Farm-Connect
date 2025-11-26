@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.farmconnect.DeliveryDetailsActivity
 import com.example.farmconnect.R
@@ -132,31 +133,36 @@ class CartFragment : Fragment() {
         val isDeliverySelected = binding.cardDelivery.cardBackgroundColor.defaultColor == 
             requireContext().getColor(R.color.delivery_option_selected)
         
+        // Create the cart items list to pass to the next activity
+        val cartProducts = ArrayList(cartItems.map { 
+            Product(
+                id = it.productId,
+                name = it.name,
+                description = "",
+                price = it.price,
+                quantity = it.quantity.toString(),
+                unit = it.unit,
+                imageUrl = null,
+                category = "",
+                owner = ""
+            )
+        })
+        
+        // Create bundle with cart data
+        val bundle = Bundle().apply {
+            putParcelableArrayList("CART_ITEMS", cartProducts)
+            putDouble("SUBTOTAL", cartItems.sumOf { it.getTotalPrice() })
+            putDouble("DELIVERY_FEE", if (isDeliverySelected) 8.00 else 0.00)
+            putDouble("TOTAL", cartItems.sumOf { it.getTotalPrice() } + if (isDeliverySelected) 8.00 else 0.00)
+        }
+        
+        // Navigate based on selection
         if (isDeliverySelected) {
-            // Navigate to Delivery Details Activity
-            val intent = Intent(requireContext(), DeliveryDetailsActivity::class.java).apply {
-                // Pass cart items as ParcelableArrayList
-                putParcelableArrayListExtra("CART_ITEMS", ArrayList(cartItems.map { 
-                    Product(
-                        id = it.productId,
-                        name = it.name,
-                        description = "",
-                        price = it.price,
-                        quantity = it.quantity.toString(),
-                        unit = it.unit,
-                        imageUrl = null,
-                        category = "",
-                        owner = ""
-                    )
-                }))
-                putExtra("SUBTOTAL", cartItems.sumOf { it.getTotalPrice() })
-                putExtra("DELIVERY_FEE", if (isDeliverySelected) 8.00 else 0.00)
-                putExtra("TOTAL", cartItems.sumOf { it.getTotalPrice() } + if (isDeliverySelected) 8.00 else 0.00)
-            }
-            startActivity(intent)
+            // Navigate to Delivery Details
+            findNavController().navigate(R.id.action_cartFragment_to_deliveryDetailsActivity, bundle)
         } else {
-            // For pickup, you can navigate to PickupDetailsActivity or handle differently
-            Toast.makeText(requireContext(), "Pickup option coming soon!", Toast.LENGTH_SHORT).show()
+            // Navigate to Pickup Details
+            findNavController().navigate(R.id.action_cartFragment_to_pickupDetailsActivity, bundle)
         }
     }
 

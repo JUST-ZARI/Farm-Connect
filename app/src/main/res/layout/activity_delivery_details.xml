@@ -11,297 +11,312 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <!-- Map Section -->
-        <RelativeLayout
+        <!-- Top bar: back + title -->
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="250dp"
-            android:background="@color/map_background"
-            android:padding="16dp">
+            android:layout_height="wrap_content"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:paddingTop="16dp"
+            android:paddingBottom="8dp"
+            android:gravity="center_vertical">
 
-            <!-- Map Placeholder (In real app, use MapView) -->
+            <ImageButton
+                android:id="@+id/btnBack"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:background="@android:color/transparent"
+                android:src="@drawable/ic_arrow_back"
+                android:contentDescription="@string/previous" />
 
-            <!-- Current Location Button -->
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/light_blue"
-                android:scaleType="centerCrop"
-                android:src="@drawable/ic_map_placeholder" />
-
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentBottom="true"
-                android:layout_margin="16dp"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="50dp"
-                android:layout_marginBottom="45dp"
-                android:src="@drawable/ic_my_location"
-                app:backgroundTint="@color/white"
-                app:elevation="8dp"
-                app:tint="@color/primary_blue" />
+                android:text="Delivery Details"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="@color/text_dark" />
+        </LinearLayout>
 
-        </RelativeLayout>
+        <!-- DIVIDER -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/divider_gray"
+            android:layout_marginBottom="12dp" />
 
-        <!-- Delivery Information -->
+        <!-- MAIN CONTENT -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="16dp">
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:paddingBottom="16dp">
 
-            <!-- Order Header -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginBottom="16dp">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Delivery Details"
-                    android:textColor="@color/text_dark"
-                    android:textSize="24sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/tvOrderNumber"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="FC-4321"
-                    android:textColor="@color/order_number"
-                    android:textSize="16sp"
-                    android:textStyle="bold"
-                    android:background="@drawable/rounded_order_bg"
-                    android:paddingStart="12dp"
-                    android:paddingEnd="12dp"
-                    android:paddingTop="4dp"
-                    android:paddingBottom="4dp" />
-
-            </LinearLayout>
-
-            <!-- Estimated Time -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:background="@color/eta_background"
-                android:padding="16dp"
-                app:cornerRadius="8dp"
-                android:layout_marginBottom="20dp">
-
-                <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:src="@drawable/ic_time"
-                    android:layout_marginEnd="12dp"
-                    app:tint="@color/time_indicator" />
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Estimated 30-60 min"
-                    android:textColor="@color/text_dark"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
-
-            </LinearLayout>
-
-            <!-- Farmer and Buyer Information -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginBottom="20px">
-
-                <!-- Farmer Card -->
-                <com.google.android.material.card.MaterialCardView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_marginEnd="8dp"
-                    app:cardCornerRadius="12dp"
-                    app:cardElevation="2dp">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:padding="16dp">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Farmer"
-                            android:textColor="@color/text_light"
-                            android:textSize="14sp"
-                            android:layout_marginBottom="4dp" />
-
-                        <TextView
-                            android:id="@+id/tvFarmerName"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Kamau Karluki"
-                            android:textColor="@color/text_dark"
-                            android:textSize="16sp"
-                            android:textStyle="bold" />
-
-                    </LinearLayout>
-
-                </com.google.android.material.card.MaterialCardView>
-
-                <!-- Buyer Card -->
-                <com.google.android.material.card.MaterialCardView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_marginStart="8dp"
-                    app:cardCornerRadius="12dp"
-                    app:cardElevation="2dp">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:padding="16dp">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Buyer"
-                            android:textColor="@color/text_light"
-                            android:textSize="14sp"
-                            android:layout_marginBottom="4dp" />
-
-                        <TextView
-                            android:id="@+id/tvBuyerName"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Achieng Markets"
-                            android:textColor="@color/text_dark"
-                            android:textSize="16sp"
-                            android:textStyle="bold" />
-
-                    </LinearLayout>
-
-                </com.google.android.material.card.MaterialCardView>
-
-            </LinearLayout>
-
-            <!-- Delivery Location Input -->
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="20dp"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                app:boxStrokeColor="@color/primary_blue"
-                app:hintTextColor="@color/primary_blue"
-                app:boxCornerRadiusBottomEnd="8dp"
-                app:boxCornerRadiusBottomStart="8dp"
-                app:boxCornerRadiusTopEnd="8dp"
-                app:boxCornerRadiusTopStart="8dp"
-                app:hintEnabled="true"
-                app:hintAnimationEnabled="true"
-                app:startIconDrawable="@drawable/ic_location">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/etDeliveryLocation"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Enter delivery location"
-                    android:inputType="text"
-                    android:maxLines="1"
-                    android:textSize="16sp"
-                    android:paddingStart="40dp"/>
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <!-- ETA Section -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginBottom="24dp"
-                android:background="@color/eta_background"
-                android:padding="16dp"
-                app:cornerRadius="8dp">
-
-                <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:src="@drawable/ic_eta"
-                    android:layout_marginEnd="12dp"
-                    app:tint="@color/primary_blue" />
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Estimated Time Arrival"
-                    android:textColor="@color/text_dark"
-                    android:textSize="16sp" />
-
-                <TextView
-                    android:id="@+id/tvETA"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="45 min"
-                    android:textColor="@color/primary_blue"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
-
-            </LinearLayout>
-
-            <!-- Items Section -->
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Items"
-                android:textColor="@color/text_dark"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                android:layout_marginBottom="12dp" />
-
+            <!-- CARD 1 : order + map + ETA -->
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="24dp"
-                app:cardCornerRadius="12dp"
+                android:layout_marginTop="8dp"
+                app:cardCornerRadius="18dp"
+                app:cardUseCompatPadding="true"
                 app:cardElevation="2dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:padding="16dp">
+                    android:padding="16dp"
+                    android:background="@color/white">
+
+                    <!-- Order / Estimated / Farmer / Buyer rows -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <!-- Order -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_marginBottom="4dp">
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="Order"
+                                android:textSize="14sp"
+                                android:textColor="@color/text_light" />
+
+                            <TextView
+                                android:id="@+id/tvOrderNumber"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="FC-4321"
+                                android:textSize="14sp"
+                                android:textStyle="bold"
+                                android:textColor="@color/text_dark" />
+                        </LinearLayout>
+
+                        <!-- Estimated -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_marginBottom="4dp">
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="Estimated"
+                                android:textSize="14sp"
+                                android:textColor="@color/text_light" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="30–60 min"
+                                android:textSize="14sp"
+                                android:textColor="@color/text_dark" />
+                        </LinearLayout>
+
+                        <!-- Farmer -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_marginBottom="4dp">
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="Farmer"
+                                android:textSize="14sp"
+                                android:textColor="@color/text_light" />
+
+                            <TextView
+                                android:id="@+id/tvFarmerName"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Kamau Kariuki"
+                                android:textSize="14sp"
+                                android:textStyle="bold"
+                                android:textColor="@color/text_dark" />
+                        </LinearLayout>
+
+                        <!-- Buyer -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_marginBottom="12dp">
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="Buyer"
+                                android:textSize="14sp"
+                                android:textColor="@color/text_light" />
+
+                            <TextView
+                                android:id="@+id/tvBuyerName"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Achieng Markets"
+                                android:textSize="14sp"
+                                android:textStyle="bold"
+                                android:textColor="@color/text_dark" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <!-- Location field -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginBottom="12dp"
+                        android:background="@drawable/bg_location_field"
+                        android:paddingHorizontal="12dp"
+                        android:paddingVertical="8dp"
+                        android:gravity="center_vertical">
+
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:src="@drawable/ic_location"
+                            app:tint="@color/text_light" />
+
+                        <EditText
+                            android:id="@+id/etDeliveryLocation"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_marginStart="8dp"
+                            android:background="@android:color/transparent"
+                            android:hint="Enter delivery location"
+                            android:maxLines="1"
+                            android:textSize="14sp" />
+
+                        <!-- small round button on the right -->
+                        <ImageButton
+                            android:id="@+id/btnMyLocation"
+                            android:layout_width="28dp"
+                            android:layout_height="28dp"
+                            android:background="@drawable/bg_round_icon_button"
+                            android:src="@drawable/ic_my_location"
+                            android:contentDescription="@string/my_location"
+                            app:tint="@android:color/white" />
+                    </LinearLayout>
+
+                    <!-- Map -->
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="170dp"
+                        android:background="@drawable/bg_map_rounded">
+
+                        <!-- Replace with MapView in real implementation -->
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/ic_map_placeholder" />
+                    </FrameLayout>
+
+                    <!-- Estimated time + Get ETA -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:layout_marginTop="8dp">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Estimated time"
+                            android:textSize="13sp"
+                            android:textColor="@color/text_light" />
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/tvEta"
+                            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:minHeight="0dp"
+                            android:paddingHorizontal="16dp"
+                            android:paddingVertical="4dp"
+                            android:text="Get ETA"
+                            android:textSize="13sp"
+                            app:cornerRadius="20dp"
+                            app:strokeWidth="1dp"
+                            app:strokeColor="@color/primary_blue"
+                            app:icon="@drawable/ic_eta"
+                            app:iconGravity="textStart"
+                            app:iconPadding="6dp"
+                            app:iconTint="@color/primary_blue"
+                            android:textColor="@color/primary_blue" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- ITEMS TITLE -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Items"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="@color/text_dark" />
+
+            <!-- CARD 2 : items list -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                app:cardCornerRadius="18dp"
+                app:cardUseCompatPadding="true"
+                app:cardElevation="2dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp"
+                    android:background="@color/white">
 
                     <!-- Sukuma Wiki -->
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
-                        android:layout_marginBottom="12dp">
+                        android:layout_marginBottom="8dp">
 
                         <TextView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="Sukuma Wiki (Kale)"
-                            android:textColor="@color/text_dark"
-                            android:textSize="16sp" />
+                            android:textSize="14sp"
+                            android:textColor="@color/text_dark" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="20 crates"
-                            android:textColor="@color/text_light"
-                            android:textSize="16sp" />
-
+                            android:textSize="14sp"
+                            android:textStyle="bold"
+                            android:textColor="@color/text_dark" />
                     </LinearLayout>
 
                     <!-- Tomatoes -->
@@ -309,23 +324,23 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
-                        android:layout_marginBottom="12dp">
+                        android:layout_marginBottom="8dp">
 
                         <TextView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="Tomatoes"
-                            android:textColor="@color/text_dark"
-                            android:textSize="16sp" />
+                            android:textSize="14sp"
+                            android:textColor="@color/text_dark" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="15 crates"
-                            android:textColor="@color/text_light"
-                            android:textSize="16sp" />
-
+                            android:textSize="14sp"
+                            android:textStyle="bold"
+                            android:textColor="@color/text_dark" />
                     </LinearLayout>
 
                     <!-- Irish Potatoes -->
@@ -339,39 +354,36 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="Irish Potatoes"
-                            android:textColor="@color/text_dark"
-                            android:textSize="16sp" />
+                            android:textSize="14sp"
+                            android:textColor="@color/text_dark" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="10 bags"
-                            android:textColor="@color/text_light"
-                            android:textSize="16sp" />
-
+                            android:textSize="14sp"
+                            android:textStyle="bold"
+                            android:textColor="@color/text_dark" />
                     </LinearLayout>
 
                 </LinearLayout>
-
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Proceed to Payment Button -->
+            <!-- Bottom button -->
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnProceedToPayment"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginBottom="8dp"
                 android:text="Proceed to Payment"
-                android:textColor="@color/white"
+                android:textAllCaps="false"
                 android:textSize="16sp"
                 android:textStyle="bold"
+                android:textColor="@android:color/white"
                 app:backgroundTint="@color/primary_blue"
-                app:cornerRadius="8dp"
-                android:elevation="4dp"
-                app:icon="@drawable/ic_payment"
-                app:iconTint="@color/white" />
-
+                app:cornerRadius="10dp" />
         </LinearLayout>
 
     </LinearLayout>
-
 </ScrollView>
