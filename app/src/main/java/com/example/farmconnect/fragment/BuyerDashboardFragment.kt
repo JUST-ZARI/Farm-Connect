@@ -20,6 +20,9 @@ class BuyerDashboardFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var productAdapter: ProductAdapter
 
+    private var allProducts: List<Product> = emptyList()
+    private var displayedProducts: List<Product> = emptyList()
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -51,11 +54,11 @@ class BuyerDashboardFragment : Fragment() {
             layoutManager = GridLayoutManager(requireContext(), 2)
             adapter = productAdapter
         }
-        
+
         // Load products from Firestore
         loadProductsFromFirestore()
     }
-    
+
     private fun loadProductsFromFirestore() {
         com.google.firebase.firestore.FirebaseFirestore.getInstance()
             .collection("products")
@@ -78,24 +81,78 @@ class BuyerDashboardFragment : Fragment() {
                         null
                     }
                 }
-                productAdapter.updateProducts(products)
+                allProducts = products
+                displayedProducts = products
+                productAdapter.updateProducts(displayedProducts)
             }
             .addOnFailureListener { e ->
-                // Fallback to sample products if Firestore fails
-                productAdapter.updateProducts(getSampleProducts())
+                val products = getSampleProducts()
+                allProducts = products
+                displayedProducts = products
+                productAdapter.updateProducts(displayedProducts)
                 android.util.Log.e("BuyerDashboard", "Error loading products: ${e.message}")
             }
     }
 
     private fun setupClickListeners() {
         binding.btnFilter.setOnClickListener {
-            Toast.makeText(requireContext(), "Filter options coming soon!", Toast.LENGTH_SHORT).show()
+            showFilterDialog()
         }
 
         binding.btnSort.setOnClickListener {
-            Toast.makeText(requireContext(), "Sort options coming soon!", Toast.LENGTH_SHORT).show()
+            showSortDialog()
         }
     }
+
+    private fun showSortDialog() {
+        val options = arrayOf("Price: Low to High", "Price: High to Low", "Name: A–Z")
+
+        android.app.AlertDialog.Builder(requireContext())
+            .setTitle("Sort By")
+            .setItems(options) { _, which ->
+                displayedProducts = when (which) {
+                    0 -> displayedProducts.sortedBy { it.price }
+                    1 -> displayedProducts.sortedByDescending { it.price }
+                    2 -> displayedProducts.sortedBy { it.name.lowercase() }
+                    else -> displayedProducts
+                }
+                productAdapter.updateProducts(displayedProducts)
+            }
+            .show()
+    }
+
+    private fun showFilterDialog() {
+        if (allProducts.isEmpty()) {
+            Toast.makeText(requireContext(), "No products to filter", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        val categories = allProducts
+            .map { it.category }
+            .filter { it.isNotBlank() }
+            .distinct()
+            .sorted()
+
+        // Add "All" at top
+        val options = arrayOf("All") + categories.toTypedArray()
+
+        android.app.AlertDialog.Builder(requireContext())
+            .setTitle("Filter by Category")
+            .setItems(options) { _, which ->
+                displayedProducts = if (which == 0) {
+                    // "All" selected
+                    allProducts
+                } else {
+                    val selectedCategory = options[which]
+                    allProducts.filter { it.category == selectedCategory }
+                }
+
+                productAdapter.updateProducts(displayedProducts)
+            }
+            .show()
+    }
+
+
 
     private fun addToCart(product: Product) {
         val cartItem = CartItem(
@@ -206,4 +263,3 @@ class BuyerDashboardFragment : Fragment() {
         _binding = null
     }
 }
-

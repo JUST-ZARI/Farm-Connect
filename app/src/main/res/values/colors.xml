@@ -18,6 +18,10 @@
     <color name="card_selected_background">#E3F2FD</color>
     <color name="price_green">#4CAF50</color>
 
+    <color name="colorSuccess">#4CAF50</color>
+    <color name="colorError">#F44336</color>
+    <color name="colorWarning">#FF9800</color>
+    <color name="colorTextSecondary">#757575</color>
 
     <!-- Farmer Dashboard Colors - Blue Theme -->
     <color name="farmer_primary">#2196F3</color>

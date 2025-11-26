@@ -34,7 +34,7 @@
                 android:id="@+id/profileName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Alex Mull"
+                android:text=""
                 android:textSize="20sp"
                 android:textStyle="bold"
                 android:textColor="#000000" />
@@ -86,7 +86,7 @@
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:src="@drawable/ic_arrow_forward"
-                        android:tint="#666666" />
+                        app:tint="#666666" />
                 </LinearLayout>
 
                 <!-- Divider -->
@@ -117,7 +117,7 @@
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:src="@drawable/ic_arrow_forward"
-                        android:tint="#666666" />
+                        app:tint="#666666" />
                 </LinearLayout>
 
             </LinearLayout>
@@ -166,7 +166,7 @@
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:src="@drawable/ic_arrow_forward"
-                        android:tint="#666666" />
+                        app:tint="#666666" />
                 </LinearLayout>
 
                 <!-- Divider -->
@@ -197,7 +197,7 @@
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:src="@drawable/ic_arrow_forward"
-                        android:tint="#666666" />
+                        app:tint="#666666" />
                 </LinearLayout>
 
                 <!-- Divider -->
@@ -228,7 +228,7 @@
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:src="@drawable/ic_logout"
-                        android:tint="#FF0000" />
+                        app:tint="#FF0000" />
                 </LinearLayout>
 
             </LinearLayout>
